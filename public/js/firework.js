@@ -25,7 +25,7 @@ function Firework() {
     }
 
     for (var i = this.particles.length - 1; i >= 0; i--) {
-      this.particles[i].applyForce(gravity);
+      this.particles[i].applyForce(createVector(0, 0.1));
       this.particles[i].update();
       if (this.particles[i].done()) {
         this.particles.splice(i, 1);
@@ -35,11 +35,21 @@ function Firework() {
 
   // 花火がどのように爆発して開くのかをチェックする関数
   this.explode = function () {
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 300; i++) {
       var p = new ExplodeParticle(
         this.rasingParticle.position.x,
         this.rasingParticle.position.y,
         this.hu,
+        3
+      );
+      this.particles.push(p);
+    }
+    for (var i = 0; i < 300; i++) {
+      var p = new ExplodeParticle(
+        this.rasingParticle.position.x,
+        this.rasingParticle.position.y,
+        this.hu,
+        1
       );
       this.particles.push(p);
     }
