@@ -1,5 +1,5 @@
-import { serve } from "https://deno.land/std@0.151.0/http/server.ts";
 import { serveDir } from "https://deno.land/std@0.151.0/http/file_server.ts";
+import { serve } from "https://deno.land/std@0.151.0/http/server.ts";
 import { Md5 } from "https://deno.land/std@0.123.0/hash/md5.ts";
 import "https://deno.land/std@0.193.0/dotenv/load.ts"
 import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts"
