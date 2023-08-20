@@ -14,11 +14,11 @@ function setup() {
 
 function draw() {
   colorMode(RGB); // 花火を出す色の指定の仕方
-  background(0, 0, 0, 25); // 背景に少し透明なのを重ねてだんだん消えて行くように
+  background(0, 0, 0); // 背景に少し透明なのを重ねてだんだん消えて行くように
   colorMode(HSB);
 
   if (fireworks.length === 0) {
-    // fireworks.push(new KikuFirework(color(random(255), 255, 255)));
+    fireworks.push(new KikuFirework(color(random(255), 255, 255)));
     fireworks.push(new BotanFirework(color(random(255), 255, 255)));
   }
   //　花火の見せ方

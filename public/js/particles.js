@@ -4,21 +4,33 @@ class AbstractParticle {
   acceleration;
   radius;
   color;
+  trailLength;
+  #trails;
 
   constructor(pos) {
     this.position = pos;
+    this.#trails = [];
   }
 
-  update() {
+  update(delta) {
+    this.#trails.push(this.position.copy());
+
     this.velocity.add(this.acceleration);
-    this.position.add(p5.Vector.mult(this.velocity, deltaTime * .05));
+    this.position.add(p5.Vector.mult(this.velocity, delta * .05));
+
+    this.#trails = this.#trails.slice(-this.trailLength);
   }
 
   draw() {
     strokeWeight(this.radius);
 
-    stroke(this.color);
-    point(this.position.x, this.position.y);
+    this.#trails.forEach((trail, idx) => {
+      const c = this.color;
+      c.setAlpha(idx * (1.0 / this.trailLength));
+
+      stroke(c);
+      point(trail.x, trail.y);
+    });
   }
 }
 
@@ -29,12 +41,14 @@ class RasingParticle extends AbstractParticle {
     this.acceleration = createVector(0, .7);
     this.color = color;
     this.radius = 6;
+    this.trailLength = 15;
   }
 }
 
 class ExplodeParticle extends AbstractParticle {
   #lifespan;
   #velocityDist;
+  #initLife;
 
   constructor(
     pos,
@@ -43,6 +57,7 @@ class ExplodeParticle extends AbstractParticle {
     v = 0.95,
     initLife = 350,
     v0 = p5.Vector.random2D().mult(random(1, 15)),
+    trailLength = 15,
   ) {
     super(pos);
     this.velocity = v0;
@@ -50,18 +65,23 @@ class ExplodeParticle extends AbstractParticle {
 
     this.color = color;
     this.radius = r;
+    this.trailLength = trailLength;
+    this.#initLife = initLife;
     this.#lifespan = initLife;
 
     this.#velocityDist = v;
   }
 
-  update() {
-    super.update();
+  update(delta) {
+    super.update(delta);
 
     this.velocity.mult(this.#velocityDist);
     this.#lifespan -= 6;
 
-    this.color.setAlpha(this.#lifespan);
+    // 最後は光がだんだん消えていくように
+    if (this.#lifespan < this.#initLife * .2) {
+      this.radius *= .9;
+    }
   }
 
   get done() {
