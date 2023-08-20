@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>manage page</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        色の名前：<input type="text" id="color-name">
+        カラーコード：<input type="text" id="color-code">
+        <button id="regist">登録</button>
+        <span id="res"></span>
+        <script>
+            document.getElementById("regist").onclick = async() => {
+                const name = document.getElementById("color-name").value
+                const code = document.getElementById("color-code").value
+                const res = await fetch("/regist-color-code", {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        name: name,
+                        code: code
+                    })
+                });
+                document.getElementById("res").innerText = await res.text();
+            }
+        </script>
+    </body>
+</html>
