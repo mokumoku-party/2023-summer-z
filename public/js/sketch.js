@@ -18,7 +18,7 @@ function draw() {
   colorMode(HSB);
 
   if (fireworks.length === 0) {
-    fireworks.push(new Firework()); // fireworksという配列にfirewokという関数の中身を追加する。
+    fireworks.push(new KikuFirework(color(random(255), 255, 255)));
   }
   //　花火の見せ方
   for (var i = fireworks.length - 1; i >= 0; i--) {
