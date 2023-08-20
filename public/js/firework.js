@@ -65,15 +65,7 @@ class KikuFirework extends Firework {
       var p = new ExplodeParticle(
         createVector(rPos.x, rPos.y),
         this.color,
-        3,
-      );
-      this.particles.push(p);
-    }
-    for (var i = 0; i < 300; i++) {
-      var p = new ExplodeParticle(
-        createVector(rPos.x, rPos.y),
-        this.color,
-        1,
+        random() < .5 ? 3 : 1,
       );
       this.particles.push(p);
     }
@@ -102,7 +94,7 @@ class BotanFirework extends Firework {
 
     const rPos = this.rasingParticle.position;
 
-    for (var i = 0; i < 800; i++) {
+    for (var i = 0; i < 200; i++) {
       var p = new ExplodeParticle(
         createVector(rPos.x, rPos.y),
         this.color,
