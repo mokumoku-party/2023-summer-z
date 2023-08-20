@@ -1,13 +1,18 @@
-# template-deno-dev
+# 2023-summer-z
 
-[Deno](https://deno.land/)を使った開発のテンプレートです。  
-[Deno Deploy](https://deno.com/deploy)を利用して外部へ公開することを想定しています。  
+2023年jig.jpインターンの統括・メンターが集まって同じテーマ・技術仕様でアプリを作ってみようのコーナー。
 
-## Deno Deploy の利用方法
+今回のテーマは「夏休み」、インターンに合わせて Deno を使用しています。
 
-↓以上の詳細は公式リファレンスへ。
+## HANABISHI
 
-1. [Deno Deploy](https://deno.com/deploy)にアクセスして、右上の「Sign In」からGitHubアカウントでのOAuthログインでアカウントを作成orログインしてください。
-2. 青い「+ New Project」から「Create a project」画面に遷移して、「Deploy an existing GitHub repository」側から GitHub repository の「Select a repository」をクリック
-3. Create a project from GitHub の画面で、デプロイするリポジトリを選んでこのリポジトリをテンプレートにした場合は「No build step」で、メインのDenoのコードが書いてあるファイルをエントリポイントに指定して「Create & Deploy」します。
-4. ダイアログが出て Deployed になれば成功。右上の青い「View」からデプロイされたページが確認できるはずです。
+夏休み...夏祭りで花火を見たいですよね？  
+ということで、花火を見れるアプリを作りました。
+
+https://hanabishi.deno.dev
+
+- ビジョン
+  - 誰でも手軽に、いろいろな花火を作って観察することができます
+- ターゲット
+  - 花火大会に行けなかった人
+  - 花火大会で花火を見て、作り方や種類が気になった若者(10~20代)
