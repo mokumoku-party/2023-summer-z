@@ -12,7 +12,7 @@ const DBNAME = Deno.env.get("DBNAME")
 
 const mySqlClient = await new Client().connect({
   hostname: HOSTNAME,
-  username: USER,
+  username: "root",
   password: PASSWORD,
   db: DBNAME
 })
@@ -49,6 +49,21 @@ serve(async (req) => {
     const code = json.code;
     if (name !== "" && code !== ""){
       const result = await mySqlClient.execute("insert into color (name, code) value (?, ?);", [name,code]);
+      if (result.affectedRows === 1){
+        return new Response("登録完了しました")
+      }else{
+        return new Response("登録失敗しました")
+      }
+    }
+    return new Response("空欄があります")
+  }
+
+  if (req.method === "POST" && pathname === "/regist-type") {
+    const json = await req.json();
+    const name = json.name;
+    const url = json.url;
+    if (name !== "" && url !== ""){
+      const result = await mySqlClient.execute("insert into type (name, url) value (?, ?);", [name,url]);
       if (result.affectedRows === 1){
         return new Response("登録完了しました")
       }else{
