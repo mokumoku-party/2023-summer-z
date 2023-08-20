@@ -78,3 +78,36 @@ class KikuFirework extends Firework {
     }
   }
 }
+
+class BotanFirework extends Firework {
+  constructor(color) {
+    super(color);
+  }
+
+  update() {
+    super.update();
+
+    for (var i = this.particles.length - 1; i >= 0; i--) {
+      this.particles[i].update();
+      if (this.particles[i].done) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+
+  explode() {
+    super.explode();
+
+    const rPos = this.rasingParticle.position;
+    for (var i = 0; i < 300; i++) {
+      var p = new ExplodeParticle(
+        createVector(rPos.x, rPos.y),
+        this.color,
+        3,
+        0.9,
+        200,
+      );
+      this.particles.push(p);
+    }
+  }
+}

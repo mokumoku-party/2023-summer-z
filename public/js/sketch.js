@@ -18,7 +18,8 @@ function draw() {
   colorMode(HSB);
 
   if (fireworks.length === 0) {
-    fireworks.push(new KikuFirework(color(random(255), 255, 255)));
+    // fireworks.push(new KikuFirework(color(random(255), 255, 255)));
+    fireworks.push(new BotanFirework(color(random(255), 255, 255)));
   }
   //　花火の見せ方
   for (var i = fireworks.length - 1; i >= 0; i--) {
