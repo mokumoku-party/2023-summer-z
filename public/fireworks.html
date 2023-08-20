@@ -27,6 +27,7 @@
         grid-column-end: 4;
         grid-row-start: 5;
         grid-row-end: 6;
+        object-fit: fill;
       }
       div{
         background-color: black;
@@ -52,7 +53,7 @@
     <div class="wrapper">
       <div id="canvas" class="box1"></div>
       <!-- <div class="box2"><button>打ち上げボタン</button></div> -->
-      <div class="box2"><img src="/img/remocon.png" width="100%" height="100%" id="firing_button"></div>
+      <img class="box2" src="/img/remocon.png" width="100%" height="100%" id="firing_button">
     </div>
     <script>
       document.getElementById("firing_button").onclick = () => {
