@@ -2,7 +2,7 @@ var fireworks = [];
 var gravity;
 
 function setup() {
-  createCanvas(displayWidth, displayHeight); // canvasを作成
+  createCanvas(windowWidth, windowHeight); // canvasを作成
   colorMode(HSB); //花火を出す色の指定の仕方
   gravity = createVector(0, 0.7);
   stroke(255); // 線の色を設定
@@ -10,6 +10,10 @@ function setup() {
   background(0); // 背景を黒く指定
 
   frameRate(120);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
