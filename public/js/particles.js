@@ -2,70 +2,98 @@ class AbstractParticle {
   position;
   velocity;
   acceleration;
+  radius;
+  color;
+  trailLength;
+  #trails;
+  #trailItr = 0;
 
   constructor(pos) {
     this.position = pos;
   }
 
-  update() {
+  update(delta) {
+    if (this.#trails) {
+      this.#trails[this.#trailItr] = this.position.copy();
+      this.#trailItr = (this.#trailItr + 1) % this.trailLength;
+    } else {
+      this.#trails = Array(this.trailLength).fill(createVector(0, 0));
+    }
+
     this.velocity.add(this.acceleration);
-    this.position.add(p5.Vector.mult(this.velocity, deltaTime * .05));
+    this.position.add(p5.Vector.mult(this.velocity, delta * .05));
   }
 
-  draw() {}
+  draw() {
+    strokeWeight(this.radius);
+
+    for (let i = 0; i < this.trailLength; i++) {
+      const idx = (i + this.#trailItr) % this.trailLength;
+      const trail = this.#trails[idx];
+      const c = this.color;
+
+      c.setAlpha(
+        i * (1.0 / this.trailLength),
+      );
+
+      stroke(c);
+      point(trail.x, trail.y);
+    }
+  }
 }
 
 class RasingParticle extends AbstractParticle {
-  #color;
-
   constructor(pos, color) {
     super(pos);
     this.velocity = createVector(0, random(-29, -20));
     this.acceleration = createVector(0, .7);
-    this.#color = color;
-  }
-
-  draw() {
-    strokeWeight(6);
-
-    stroke(this.#color);
-    point(this.position.x, this.position.y);
+    this.color = color;
+    this.radius = 6;
+    this.trailLength = 15;
   }
 }
 
 class ExplodeParticle extends AbstractParticle {
-  #color;
-  #r;
-  #initLife = 350;
-  #lifespan = this.#initLife;
+  #lifespan;
+  #velocityDist;
+  #initLife;
 
-  constructor(pos, color, r) {
+  constructor(
+    pos,
+    color,
+    r,
+    v = 0.95,
+    initLife = 350,
+    v0 = p5.Vector.random3D().mult(15),
+    trailLength = 15,
+    acc = createVector(0, .1),
+  ) {
     super(pos);
-    this.velocity = p5.Vector.random2D(); // ランダムにベクトルを定義
-    this.velocity.mult(random(1, 15));
-    this.acceleration = createVector(0, .1);
+    this.velocity = v0;
+    this.acceleration = acc;
 
-    this.#color = color;
-    this.#r = r;
+    this.color = color;
+    this.radius = r;
+    this.trailLength = trailLength;
+    this.#initLife = initLife;
+    this.#lifespan = initLife;
+
+    this.#velocityDist = v;
   }
 
-  update() {
-    super.update();
+  update(delta) {
+    super.update(delta);
 
-    this.velocity.mult(0.95);
-    this.#lifespan -= 6;
+    this.velocity.mult(this.#velocityDist);
+    this.#lifespan -= delta / 4.0;
 
-    this.#color.setAlpha(this.#lifespan);
+    // 最後は光がだんだん消えていくように
+    if (this.#lifespan < this.#initLife * .2) {
+      this.radius *= .9;
+    }
   }
 
   get done() {
     return this.#lifespan < 0;
-  }
-
-  draw() {
-    strokeWeight(this.#r);
-
-    stroke(this.#color);
-    point(this.position.x, this.position.y);
   }
 }
