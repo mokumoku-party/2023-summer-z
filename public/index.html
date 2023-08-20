@@ -66,12 +66,14 @@
         selectType(type) { this.selectedType = type; },
         getHsbString(hsb) { return `hsb(${hsb[0]}, ${hsb[1]}%, ${hsb[2]}%)`; },
         hsb2hsl(h, s, b) {
-          // Normalize HSB components to the range [0, 1]
-          h = (h % 256) / 255.0;
+          // h（Hue）は0~360の範囲でそのまま使用
+          h = h % 360;
+
+          // s（Saturation）とb（Brightness）は0~100の範囲に正規化
           s = s / 100.0;
           b = b / 100.0;
 
-          // Compute the L value
+          // L（Lightness）の値を計算
           const L = (2 - s) * b / 2;
 
           let S;
@@ -81,15 +83,12 @@
             S = 0;
           }
 
-          // Convert L and S to the range [0, 100]
+          // LとSを0~100の範囲に変換
           const L100 = L * 100;
           const S100 = S * 100;
 
-          // Convert h to the range [0, 360]
-          const H360 = h * 360;
-
-          // Convert to HSL string
-          return `hsl(${H360}, ${S100}%, ${L100}%)`;
+          // HSL文字列を返す
+          return `hsl(${h}, ${S100}%, ${L100}%)`;
         },
         submit() {
           // 種類が選択されていなければエラーを表示する
