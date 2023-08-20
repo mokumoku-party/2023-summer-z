@@ -31,15 +31,16 @@ function draw() {
   if (isReady) {
     if (fireworks.length === 0) {
       let firework;
-      if (firework_type === 0) {
+      if (firework_type === "菊") {
         firework = new KikuFirework(firework_color);
       }
-      if (firework_type === 1) {
+      if (firework_type === "牡丹") {
         firework = new BotanFirework(firework_color);
       }
 
       fireworks.push(firework);
     }
+
     //　花火の見せ方
     for (var i = fireworks.length - 1; i >= 0; i--) {
       fireworks[i].update();

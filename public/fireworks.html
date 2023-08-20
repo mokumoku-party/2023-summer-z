@@ -63,7 +63,13 @@
     </div>
     <script>
       document.getElementById('firing_button').onclick = () => {
-        start(0, color(random(255), 255, 255));
+        let type = localStorage.getItem('type');
+        let clr = localStorage.getItem('color').split(',');
+
+        colorMode(HSB);
+        console.log(clr);
+        start(type, color(clr[0], clr[1], clr[2]));
+        localStorage.clear();
       };
     </script>
   </body>
