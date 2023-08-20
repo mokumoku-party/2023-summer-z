@@ -2,13 +2,20 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: black;
+  background-color: #343451;
   color: white;
 }
 
 header {
   text-align: center;
   margin-bottom: 2em;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+}
+
+#err {
+  color: lightcoral;
 }
 
 .recipe {
