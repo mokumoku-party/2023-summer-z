@@ -20,7 +20,7 @@ class RasingParticle extends AbstractParticle {
 
   constructor(pos, color) {
     super(pos);
-    this.velocity = createVector(0, random(-29, -15));
+    this.velocity = createVector(0, random(-29, -20));
     this.acceleration = createVector(0, .7);
     this.#color = color;
   }

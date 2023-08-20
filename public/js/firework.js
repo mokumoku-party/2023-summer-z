@@ -1,7 +1,7 @@
 class Firework {
   #color = color(random(255), 255, 255);
   #rasingParticle = new RasingParticle(
-    createVector(random(width), height),
+    createVector(random(width * .4, width * .6), height),
     this.#color,
   );
   #exploded = false;
