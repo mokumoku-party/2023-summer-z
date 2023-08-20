@@ -1,6 +1,9 @@
 class Firework {
   #color = color(random(255), 255, 255);
-  #rasingParticle = new RasingParticle(random(width), height, this.#color);
+  #rasingParticle = new RasingParticle(
+    createVector(random(width), height),
+    this.#color,
+  );
   #exploded = false;
   #particles = [];
 
@@ -31,10 +34,10 @@ class Firework {
 
   // 花火がどのように爆発して開くのかをチェックする関数
   explode() {
+    const rPos = this.#rasingParticle.position;
     for (var i = 0; i < 300; i++) {
       var p = new ExplodeParticle(
-        this.#rasingParticle.position.x,
-        this.#rasingParticle.position.y,
+        createVector(rPos.x, rPos.y),
         this.#color,
         3,
       );
@@ -42,8 +45,7 @@ class Firework {
     }
     for (var i = 0; i < 300; i++) {
       var p = new ExplodeParticle(
-        this.#rasingParticle.position.x,
-        this.#rasingParticle.position.y,
+        createVector(rPos.x, rPos.y),
         this.#color,
         1,
       );
