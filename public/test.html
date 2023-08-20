@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alpine.js x-for with Object.entries</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+</head>
+<body>
+
+<div x-data="{ colors: { 'red': '#FF0000', 'green': '#00FF00', 'blue': '#0000FF' } }">
+    <template x-for="[key, value] in Object.entries(colors)" :key="key">
+        <div>
+            <span x-text="key"></span>: <span x-text="value"></span>
+        </div>
+    </template>
+</div>
+
+</body>
+</html>

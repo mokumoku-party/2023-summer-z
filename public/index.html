@@ -1,30 +1,91 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <title>ようこそ、jigインターンへ！</title>
-    <script type="module">
-      
-      // document.getElementById("test").onclick = async() => {
-      //   const res = await fetch("/save-firework",{
-      //     method:"POST",
-      //     headers: {'Content-Type': 'application/json'},
-      //     body:JSON.stringify({type: "botun",color_id: 1})
-      //   })
-      //   document.getElementById("hoge").innerText = await res.text();
-      // }
 
-      document.getElementById("test").onclick = async() => {
-        //const res = await fetch("/load-firework?hash=36e59a76265fd22881979ddd2401d045")
-        const res = await fetch("/color-name");
-        document.getElementById("hoge").innerText = await res.text();
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
+  <title>Hanabishi</title>
+</head>
+
+<body x-data="recipe()">
+  <header>
+    <h1>H A N A B I S H I</h1>
+  </header>
+  <div class="recipe">
+    <h2>種類</h2>
+    <div class="type-list">
+      <template x-for="[type, img] in Object.entries(types)">
+        <div class="type-tile" @click="selectType(type)" :class="{ 'selected': selectedType === type }">
+          <img :src="img" :alt="type">
+          <p x-text="type"></p>
+        </div>
+      </template>
+    </div>
+
+
+    <h2>色</h2>
+    <div class="color-list">
+      <template x-for="[name, hsb] in Object.entries(colors)">
+        <div class="color-tile" @click="selectColor(name)" :class="{ 'selected': selectedColor === name }"
+          :style="`background-color: ${hsb2hsl(hsb[0], hsb[1], hsb[2])}`"></div>
+      </template>
+    </div>
+  </div>
+
+  <script>
+    const recipe = () => {
+      return {
+        selectedType: '',
+        selectedColor: '',
+        colors: {
+          beni: [16, 100, 100],
+          purple: [271, 80, 88],
+          orange: [38, 100, 100],
+          light_green: [90, 100, 100],
+          red: [0, 100, 100],
+          blue: [240, 100, 100],
+          green: [120, 100, 100],
+          yellow: [60, 100, 100]
+        },
+        types: {
+          牡丹: './imgs/01_botan.png',
+          菊: './imgs/02_kiku.png'
+        },
+        selectColor(name) { this.selectedColor = name; },
+        selectType(type) { this.selectedType = type; },
+        getHsbString(hsb) { return `hsb(${hsb[0]}, ${hsb[1]}%, ${hsb[2]}%)`; },
+        hsb2hsl(h, s, b) {
+          // Normalize HSB components to the range [0, 1]
+          h = (h % 256) / 255.0;
+          s = s / 100.0;
+          b = b / 100.0;
+
+          // Compute the L value
+          const L = (2 - s) * b / 2;
+
+          let S;
+          if (L < 1) {
+            S = s * b / (L < 0.5 ? L * 2 : 2 - L * 2);
+          } else {
+            S = 0;
+          }
+
+          // Convert L and S to the range [0, 100]
+          const L100 = L * 100;
+          const S100 = S * 100;
+
+          // Convert h to the range [0, 360]
+          const H360 = h * 360;
+
+          // Convert to HSL string
+          return `hsl(${H360}, ${S100}%, ${L100}%)`;
+        }
       }
-    </script>
-  </head>
-  <body>
-    <h1 id="hoge"></h1>
-    <button id="test">post test
-    </button>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
