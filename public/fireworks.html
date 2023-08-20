@@ -10,6 +10,38 @@
         margin: 0px;
         padding: 0px;
       }
+      .wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-auto-rows: 20vh;
+        place-items: center;
+      }
+      .box1{
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 5;
+      }
+      .box2{
+        grid-column-start: 2;
+        grid-column-end: 4;
+        grid-row-start: 5;
+        grid-row-end: 6;
+        object-fit: fill;
+      }
+      div{
+        background-color: black;
+      }
+      button{
+        width: 40vw;
+        height: 15vh;
+        background-color: green;
+        border-radius: 3vw 2vh;
+        border: 0px;
+      }
+      img{
+        filter: invert(100%);
+      }
     </style>
   </head>
   <body>
@@ -18,5 +50,15 @@
     <script src="js/particles.js"></script>
     <script src="js/firework.js"></script>
     <script src="js/sketch.js"></script>
+    <div class="wrapper">
+      <div id="canvas" class="box1"></div>
+      <!-- <div class="box2"><button>打ち上げボタン</button></div> -->
+      <img class="box2" src="/img/remocon.png" width="100%" height="100%" id="firing_button">
+    </div>
+    <script>
+      document.getElementById("firing_button").onclick = () => {
+        alert("ok")
+      }
+    </script>
   </body>
 </html>

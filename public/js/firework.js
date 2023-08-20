@@ -20,9 +20,9 @@ class Firework {
   }
 
   // 花火が打ち上がったらどのように落ちて行くのかを設定
-  update() {
+  update(delta) {
     if (!this.exploded) {
-      this.rasingParticle.update();
+      this.rasingParticle.update(delta);
       if (this.rasingParticle.velocity.y >= 0) {
         this.exploded = true;
         this.explode();
@@ -46,10 +46,11 @@ class KikuFirework extends Firework {
   }
 
   update() {
-    super.update();
+    const delta = deltaTime;
+    super.update(delta);
 
     for (var i = this.particles.length - 1; i >= 0; i--) {
-      this.particles[i].update();
+      this.particles[i].update(delta);
       if (this.particles[i].done) {
         this.particles.splice(i, 1);
       }
@@ -73,6 +74,44 @@ class KikuFirework extends Firework {
         createVector(rPos.x, rPos.y),
         this.color,
         1,
+      );
+      this.particles.push(p);
+    }
+  }
+}
+
+class BotanFirework extends Firework {
+  constructor(color) {
+    super(color);
+  }
+
+  update() {
+    const delta = deltaTime;
+    super.update(delta);
+
+    for (var i = this.particles.length - 1; i >= 0; i--) {
+      this.particles[i].update(delta);
+      if (this.particles[i].done) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+
+  explode() {
+    super.explode();
+
+    const rPos = this.rasingParticle.position;
+
+    for (var i = 0; i < 800; i++) {
+      var p = new ExplodeParticle(
+        createVector(rPos.x, rPos.y),
+        this.color,
+        random(5, 8),
+        .97,
+        300,
+        p5.Vector.random3D().mult(6),
+        5,
+        createVector(0, 0),
       );
       this.particles.push(p);
     }
