@@ -1,6 +1,6 @@
 function Firework() {
-  this.hu = random(255); // 花火の色相
-  this.rasingParticle = new RasingParticle(random(width), height, this.hu);
+  this.color = color(random(255), 255, 255);
+  this.rasingParticle = new RasingParticle(random(width), height, this.color);
   this.exploded = false;
   this.particles = [];
 
@@ -39,8 +39,8 @@ function Firework() {
       var p = new ExplodeParticle(
         this.rasingParticle.position.x,
         this.rasingParticle.position.y,
-        this.hu,
-        3
+        this.color,
+        3,
       );
       this.particles.push(p);
     }
@@ -48,8 +48,8 @@ function Firework() {
       var p = new ExplodeParticle(
         this.rasingParticle.position.x,
         this.rasingParticle.position.y,
-        this.hu,
-        1
+        this.color,
+        1,
       );
       this.particles.push(p);
     }

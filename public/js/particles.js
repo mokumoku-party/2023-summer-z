@@ -21,36 +21,36 @@ class AbstractParticle {
 }
 
 class RasingParticle extends AbstractParticle {
-  #hue;
+  #color;
 
-  constructor(x, y, hue) {
+  constructor(x, y, color) {
     super(x, y);
     this.velocity = createVector(0, random(-29, -15));
     this.acceleration = createVector(0, 0);
-    this.#hue = hue;
+    this.#color = color;
   }
 
   draw() {
     strokeWeight(6);
 
-    stroke(this.#hue, 255, 255);
+    stroke(this.#color);
     point(this.position.x, this.position.y);
   }
 }
 
 class ExplodeParticle extends AbstractParticle {
-  #hue;
+  #color;
   #r;
   #initLife = 350;
   #lifespan = this.#initLife;
 
-  constructor(x, y, hue, r) {
+  constructor(x, y, color, r) {
     super(x, y);
     this.velocity = p5.Vector.random2D(); // ランダムにベクトルを定義
     this.velocity.mult(random(1, 15));
     this.acceleration = createVector(0, 0);
 
-    this.#hue = hue;
+    this.#color = color;
     this.#r = r;
   }
 
@@ -59,6 +59,8 @@ class ExplodeParticle extends AbstractParticle {
 
     this.velocity.mult(0.95);
     this.#lifespan -= 6;
+
+    this.#color.setAlpha(this.#lifespan);
   }
 
   done() {
@@ -71,7 +73,8 @@ class ExplodeParticle extends AbstractParticle {
 
   draw() {
     strokeWeight(this.#r);
-    stroke(this.#hue, 255, 255, this.#lifespan);
+
+    stroke(this.#color);
     point(this.position.x, this.position.y);
   }
 }
