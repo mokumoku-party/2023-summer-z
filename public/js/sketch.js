@@ -8,6 +8,8 @@ function setup() {
   stroke(255); // 線の色を設定
   strokeWeight(4); // 線の太さ
   background(0); // 背景を黒く指定
+
+  frameRate(120);
 }
 
 function draw() {

@@ -9,7 +9,7 @@ class AbstractParticle {
 
   update() {
     this.velocity.add(this.acceleration);
-    this.position.add(this.velocity);
+    this.position.add(p5.Vector.mult(this.velocity, deltaTime * .05));
   }
 
   draw() {}
