@@ -12,7 +12,7 @@ const DBNAME = Deno.env.get("DBNAME")
 
 const mySqlClient = await new Client().connect({
   hostname: HOSTNAME,
-  username: "root",
+  username: USER,
   password: PASSWORD,
   db: DBNAME
 })
