@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/button_outline_grow.css">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
   <title>Hanabishi</title>
 </head>
@@ -33,6 +34,13 @@
           :style="`background-color: ${hsb2hsl(hsb[0], hsb[1], hsb[2])}`"></div>
       </template>
     </div>
+
+    <p id="err"></p>
+
+    <button class="buttonOutlineGlow" @click="submit()">
+      <span class="buttonOutlineGlow_bg"></span>
+      <span class="buttonOutlineGlow_item">花火を作る</span>
+    </button>
   </div>
 
   <script>
@@ -82,6 +90,26 @@
 
           // Convert to HSL string
           return `hsl(${H360}, ${S100}%, ${L100}%)`;
+        },
+        submit() {
+          // 種類が選択されていなければエラーを表示する
+          if (this.selectedType === '') {
+            err.innerText = '種類を選択してください';
+            return;
+          } else if (this.selectedColor === '') {
+            err.innerText = '色を選択してください';
+            return;
+          }
+
+          const color = this.colors[this.selectedColor].toString();
+          console.log(this.selectedType);
+          console.log(color);
+
+
+          localStorage.setItem('type', this.selectedType);
+          localStorage.setItem('color', color);
+
+          location.href = './fireworks.html';
         }
       }
     }
