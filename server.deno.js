@@ -25,22 +25,17 @@ serve(async (req) => {
     return new Response("jigインターンへようこそ！");
   }
   if (req.method === "POST" && pathname === "/save-firework") {
-    const json = await req.json();
-    const type = json.type;
-    const colorId = json.color_id;
+    const jsonStr = JSON.stringify(await req.json());
     const md5 = new Md5();
-    const recipeString = type + "," + colorId;
-    const hash = md5.update(recipeString).toString();
-    mySqlClient.execute(`insert into recipe (recipe, hash) value (?, ?);`, [recipeString, hash]);
+    const hash = md5.update(jsonStr).toString();
+    mySqlClient.execute(`insert into recipe (recipe, hash) value (?, ?);`, [jsonStr, hash]);
     return new Response(hash);
   }
 
   if (req.method === "GET" && pathname === "/load-firework") {
     const param = await new URL(req.url).searchParams.get("hash");
     const recipe = await mySqlClient.query(`select recipe from recipe where hash=?;`, [param]);
-    console.log(recipe)
-    const recipeArray = recipe[0].recipe.split(',')
-    return new Response(JSON.stringify({type:recipeArray[0],color_id:recipeArray[1]}));
+    return new Response(recipe[0].recipe)
   }
 
   if (req.method === "GET" && pathname === "/color-name") {
