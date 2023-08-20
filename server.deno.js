@@ -43,6 +43,21 @@ serve(async (req) => {
     return new Response(JSON.stringify(colorName));
   }
 
+  if (req.method === "POST" && pathname === "/regist-color-code") {
+    const json = await req.json();
+    const name = json.name;
+    const code = json.code;
+    if (name !== "" && code !== ""){
+      const result = await mySqlClient.execute("insert into color (name, code) value (?, ?);", [name,code]);
+      if (result.affectedRows === 1){
+        return new Response("登録完了しました")
+      }else{
+        return new Response("登録失敗しました")
+      }
+    }
+    return new Response("空欄があります")
+  }
+
   return serveDir(req, {
     fsRoot: "public",
     urlRoot: "",
