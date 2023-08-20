@@ -7,14 +7,9 @@ class AbstractParticle {
     this.position = pos;
   }
 
-  applyForce(force) {
-    this.acceleration.add(force);
-  }
-
   update() {
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
-    this.acceleration.mult(0);
   }
 
   draw() {}
@@ -26,7 +21,7 @@ class RasingParticle extends AbstractParticle {
   constructor(pos, color) {
     super(pos);
     this.velocity = createVector(0, random(-29, -15));
-    this.acceleration = createVector(0, 0);
+    this.acceleration = createVector(0, .7);
     this.#color = color;
   }
 
@@ -48,7 +43,7 @@ class ExplodeParticle extends AbstractParticle {
     super(pos);
     this.velocity = p5.Vector.random2D(); // ランダムにベクトルを定義
     this.velocity.mult(random(1, 15));
-    this.acceleration = createVector(0, 0);
+    this.acceleration = createVector(0, .1);
 
     this.#color = color;
     this.#r = r;
@@ -64,7 +59,7 @@ class ExplodeParticle extends AbstractParticle {
   }
 
   get done() {
-    this.#lifespan < 0;
+    return this.#lifespan < 0;
   }
 
   draw() {

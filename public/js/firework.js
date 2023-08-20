@@ -15,7 +15,6 @@ class Firework {
   // 花火が打ち上がったらどのように落ちて行くのかを設定
   update() {
     if (!this.#exploded) {
-      this.#rasingParticle.applyForce(gravity); // gravity分だけ下に下げる関数(particle.jsで定義)
       this.#rasingParticle.update();
       if (this.#rasingParticle.velocity.y >= 0) {
         this.#exploded = true;
@@ -24,7 +23,6 @@ class Firework {
     }
 
     for (var i = this.#particles.length - 1; i >= 0; i--) {
-      this.#particles[i].applyForce(createVector(0, 0.1));
       this.#particles[i].update();
       if (this.#particles[i].done) {
         this.#particles.splice(i, 1);
