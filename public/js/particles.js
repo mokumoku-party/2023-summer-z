@@ -6,31 +6,39 @@ class AbstractParticle {
   color;
   trailLength;
   #trails;
+  #trailItr = 0;
 
   constructor(pos) {
     this.position = pos;
-    this.#trails = [];
   }
 
   update(delta) {
-    this.#trails.push(this.position.copy());
+    if (this.#trails) {
+      this.#trails[this.#trailItr] = this.position.copy();
+      this.#trailItr = (this.#trailItr + 1) % this.trailLength;
+    } else {
+      this.#trails = Array(this.trailLength).fill(createVector(0, 0));
+    }
 
     this.velocity.add(this.acceleration);
     this.position.add(p5.Vector.mult(this.velocity, delta * .05));
-
-    this.#trails = this.#trails.slice(-this.trailLength);
   }
 
   draw() {
     strokeWeight(this.radius);
 
-    this.#trails.forEach((trail, idx) => {
+    for (let i = 0; i < this.trailLength; i++) {
+      const idx = (i + this.#trailItr) % this.trailLength;
+      const trail = this.#trails[idx];
       const c = this.color;
-      c.setAlpha(idx * (1.0 / this.trailLength));
+
+      c.setAlpha(
+        i * (1.0 / this.trailLength),
+      );
 
       stroke(c);
       point(trail.x, trail.y);
-    });
+    }
   }
 }
 
@@ -77,7 +85,7 @@ class ExplodeParticle extends AbstractParticle {
     super.update(delta);
 
     this.velocity.mult(this.#velocityDist);
-    this.#lifespan -= 6;
+    this.#lifespan -= delta / 4.0;
 
     // 最後は光がだんだん消えていくように
     if (this.#lifespan < this.#initLife * .2) {
