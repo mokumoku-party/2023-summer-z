@@ -22,7 +22,7 @@ function draw() {
   for (var i = fireworks.length - 1; i >= 0; i--) {
     fireworks[i].update();
     fireworks[i].show();
-    if (fireworks[i].done()) {
+    if (fireworks[i].done) {
       fireworks.splice(i, 1);
     }
   }

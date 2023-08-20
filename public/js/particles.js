@@ -63,12 +63,8 @@ class ExplodeParticle extends AbstractParticle {
     this.#color.setAlpha(this.#lifespan);
   }
 
-  done() {
-    if (this.#lifespan < 0) {
-      return true;
-    } else {
-      return false;
-    }
+  get done() {
+    this.#lifespan < 0;
   }
 
   draw() {

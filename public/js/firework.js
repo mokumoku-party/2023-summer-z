@@ -5,12 +5,8 @@ class Firework {
   #particles = [];
 
   // 花火が打ち上がったのかをチェックする関数
-  done() {
-    if (this.#exploded && this.#particles.length === 0) {
-      return true;
-    } else {
-      return false;
-    }
+  get done() {
+    return (this.#exploded && this.#particles.length === 0);
   }
 
   // 花火が打ち上がったらどのように落ちて行くのかを設定
@@ -27,7 +23,7 @@ class Firework {
     for (var i = this.#particles.length - 1; i >= 0; i--) {
       this.#particles[i].applyForce(createVector(0, 0.1));
       this.#particles[i].update();
-      if (this.#particles[i].done()) {
+      if (this.#particles[i].done) {
         this.#particles.splice(i, 1);
       }
     }
