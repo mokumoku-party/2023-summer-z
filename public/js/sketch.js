@@ -3,7 +3,7 @@ var gravity;
 
 function setup() {
   const result = document.getElementById("canvas");
-  const canvas = createCanvas(windowWidth, windowHeight * 4 /5); // canvasを作成
+  const canvas = createCanvas(windowWidth, windowHeight * 4 / 5); // canvasを作成
   canvas.parent(result);
 
   colorMode(HSB); //花火を出す色の指定の仕方
@@ -13,10 +13,11 @@ function setup() {
   background(0); // 背景を黒く指定
 
   frameRate(120);
+  noLoop();
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight * 4 /5);
+  resizeCanvas(windowWidth, windowHeight * 4 / 5);
 }
 
 function draw() {
@@ -24,16 +25,37 @@ function draw() {
   background(0, 0, 0); // 背景に少し透明なのを重ねてだんだん消えて行くように
   colorMode(HSB);
 
-  if (fireworks.length === 0) {
-    fireworks.push(new KikuFirework(color(random(255), 255, 255)));
-    fireworks.push(new BotanFirework(color(random(255), 255, 255)));
-  }
-  //　花火の見せ方
-  for (var i = fireworks.length - 1; i >= 0; i--) {
-    fireworks[i].update();
-    fireworks[i].show();
-    if (fireworks[i].done) {
-      fireworks.splice(i, 1);
+  if (isReady) {
+    if (fireworks.length === 0) {
+      let firework;
+      if (firework_type === 0) {
+        firework = new KikuFirework(firework_color);
+      }
+      if (firework_type === 1) {
+        new BotanFirework(firework_color);
+      }
+
+      fireworks.push(firework);
+    }
+    //　花火の見せ方
+    for (var i = fireworks.length - 1; i >= 0; i--) {
+      fireworks[i].update();
+      fireworks[i].show();
+      if (fireworks[i].done) {
+        fireworks.splice(i, 1);
+      }
     }
   }
+}
+
+let isReady = false;
+let firework_type;
+let firework_color;
+
+function start(type, color) {
+  loop();
+  deltaTime = 0;
+  isReady = true;
+  firework_type = type;
+  firework_color = color;
 }
