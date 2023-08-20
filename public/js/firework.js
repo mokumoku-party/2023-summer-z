@@ -102,15 +102,16 @@ class BotanFirework extends Firework {
 
     const rPos = this.rasingParticle.position;
 
-    for (var i = 0; i < 300; i++) {
+    for (var i = 0; i < 800; i++) {
       var p = new ExplodeParticle(
         createVector(rPos.x, rPos.y),
         this.color,
         random(5, 8),
-        .99,
-        200,
-        p5.Vector.random2D().mult(6),
+        .97,
+        300,
+        p5.Vector.random3D().mult(6),
         5,
+        createVector(0, 0),
       );
       this.particles.push(p);
     }

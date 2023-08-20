@@ -56,12 +56,13 @@ class ExplodeParticle extends AbstractParticle {
     r,
     v = 0.95,
     initLife = 350,
-    v0 = p5.Vector.random2D().mult(random(1, 15)),
+    v0 = p5.Vector.random3D().mult(15),
     trailLength = 15,
+    acc = createVector(0, .1),
   ) {
     super(pos);
     this.velocity = v0;
-    this.acceleration = createVector(0, .1);
+    this.acceleration = acc;
 
     this.color = color;
     this.radius = r;
