@@ -43,6 +43,11 @@ serve(async (req) => {
     return new Response(JSON.stringify(colorName));
   }
 
+  if (req.method === "GET" && pathname === "/types") {
+    const types = await mySqlClient.query(`SELECT * FROM  type;`);
+    return new Response(JSON.stringify(types));
+  }
+
   if (req.method === "POST" && pathname === "/regist-color-code") {
     const json = await req.json();
     const name = json.name;
