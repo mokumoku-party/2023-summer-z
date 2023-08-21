@@ -56,7 +56,7 @@
       <!-- <div class="box2"><button>打ち上げボタン</button></div> -->
       <img
         class="box2"
-        src="/img/remocon.png"
+        src="/img/remocon_pull.png"
         width="100%"
         height="100%"
         id="firing_button"
@@ -64,12 +64,17 @@
     </div>
     <script>
       document.getElementById('firing_button').onclick = () => {
-        let type = localStorage.getItem('type');
-        let clr = localStorage.getItem('color').split(',');
+        document.getElementById('firing_button').src = '/img/remocon_push.png';
 
+        let type_data = localStorage.getItem('type');
+        let color_data = localStorage.getItem('color');
+        if (type_data === undefined || color_data === undefined) {
+          return;
+        }
+
+        let color_list = color_data.split(',');
         colorMode(HSB);
-        console.log(clr);
-        start(type, color(clr[0], clr[1], clr[2]));
+        start(type_data, color(color_list[0], color_list[1], color_list[2]));
         localStorage.clear();
       };
     </script>
