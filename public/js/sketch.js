@@ -3,8 +3,8 @@ let gravity;
 let bgColor;
 
 function setup() {
-  const result = document.getElementById("canvas");
-  const canvas = createCanvas(windowWidth, windowHeight * 4 / 5); // canvasを作成
+  const result = document.getElementById('canvas');
+  const canvas = createCanvas(windowWidth, (windowHeight * 4) / 5); // canvasを作成
   canvas.parent(result);
 
   bgColor = color(34, 34, 51);
@@ -20,7 +20,7 @@ function setup() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight * 4 / 5);
+  resizeCanvas(windowWidth, (windowHeight * 4) / 5);
 }
 
 function draw() {
@@ -30,28 +30,31 @@ function draw() {
 
   if (isReady) {
     if (fireworks.length === 0) {
-      let firework;
-      if (firework_type === "菊") {
-        firework = new KikuFirework(firework_color);
-      }
-      if (firework_type === "牡丹") {
-        firework = new BotanFirework(firework_color);
-      }
+      for (let i = 0; i < 1; i++) {
+        let firework;
+        if (firework_type === '菊') {
+          firework = new KikuFirework(firework_color);
+        }
+        if (firework_type === '牡丹') {
+          firework = new BotanFirework(firework_color);
+        }
 
-      fireworks.push(firework);
+        fireworks.push(firework);
+      }
     }
 
     //　花火の見せ方
+    blendMode(SCREEN);
     for (var i = fireworks.length - 1; i >= 0; i--) {
       fireworks[i].update();
       fireworks[i].show();
       if (fireworks[i].done) {
+        fireworks[i].clear();
         fireworks.splice(i, 1);
       }
     }
+    blendMode(BLEND);
   }
-
-  console.log(getFrameRate());
 }
 
 let isReady = false;
