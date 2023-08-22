@@ -12,32 +12,53 @@
       }
       .wrapper {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-auto-rows: 20vh;
         place-items: center;
       }
       .box1 {
         grid-column-start: 1;
-        grid-column-end: 5;
+        grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 5;
       }
-      .box2 {
+      .box2{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 5;
+        grid-row-end: 6;
+        height: 90%;
+        width: 90%;
+      }
+      .box3 {
         grid-column-start: 2;
-        grid-column-end: 4;
+        grid-column-end: 3;
         grid-row-start: 5;
         grid-row-end: 6;
         object-fit: fill;
+      }
+      .box4 {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 5;
+        grid-row-end: 6;
+        height: 90%;
+        width: 90%;
       }
       div {
         background-color: black;
       }
       button {
-        width: 40vw;
-        height: 15vh;
-        background-color: green;
-        border-radius: 3vw 2vh;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border-radius: 2vh;
         border: 0px;
+        color: white;
+        border: 1px solid white;
+        font-size: 3vw;
+        font-weight: bold;
+        visibility: hidden;
       }
       img {
         height: 100%;
@@ -54,16 +75,22 @@
     <div class="wrapper">
       <div id="canvas" class="box1"></div>
       <!-- <div class="box2"><button>打ち上げボタン</button></div> -->
+      <div class="box2"><button id="create_button" disabled>つくる</button></div>
       <img
-        class="box2"
+        class="box3"
         src="/img/remocon_pull.png"
         width="100%"
         height="100%"
         id="firing_button"
       />
+      <div class="box4"><button id="save_button" disabled>ほぞん</button></div>
     </div>
     <script>
       document.getElementById('firing_button').onclick = () => {
+        document.getElementById("create_button").disabled = false;
+        document.getElementById("create_button").style.visibility = "visible";
+        document.getElementById("save_button").disabled = false;
+        document.getElementById("save_button").style.visibility = "visible"
         document.getElementById('firing_button').src = '/img/remocon_push.png';
 
         let type_data = localStorage.getItem('type');
