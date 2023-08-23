@@ -10,9 +10,9 @@ function kikuParticle(graphicBuffer, origin, vec, color) {
     origin,
     color,
     random() < 0.5 ? 3 : 1,
-    0.98,
+    0.95,
     250,
-    vec.mult(10),
+    vec.mult(8),
     15,
     createVector(0, 0.05)
   );
@@ -38,14 +38,17 @@ class Firework {
   rasingParticle;
   exploded = false;
   particles = [];
-  graphicBuffer = createGraphics(width, height);
+  buffers;
+
   trailSize;
 
-  constructor(colors, types) {
+  constructor(colors, types, buffers) {
+    this.buffers = buffers;
     this.colors = colors;
     this.types = types;
+
     this.rasingParticle = new RasingParticle(
-      this.graphicBuffer,
+      this.buffers[0],
       createVector(random(width * 0.4, width * 0.6), height),
       this.colors[0]
     );
@@ -71,12 +74,12 @@ class Firework {
 
       if (type === '牡丹') {
         this.particles.push(
-          botanParticle(this.graphicBuffer, origin, vec, particleColor)
+          botanParticle(this.buffers[1], origin, vec, particleColor)
         );
       }
       if (type === '菊') {
         this.particles.push(
-          kikuParticle(this.graphicBuffer, origin, vec, particleColor)
+          kikuParticle(this.buffers[2], origin, vec, particleColor)
         );
       }
     }
@@ -84,7 +87,6 @@ class Firework {
 
   dispose() {
     document.dispatchEvent(onFireworkDispose);
-    this.graphicBuffer.remove();
   }
 
   // 花火が打ち上がったのかをチェックする関数
@@ -112,18 +114,12 @@ class Firework {
   }
 
   show() {
-    colorMode(RGB);
-    this.graphicBuffer.background(0, this.trailSize);
-    colorMode(HSB);
-
     if (!this.exploded) {
       this.rasingParticle.draw();
     }
     for (var i = 0; i < this.particles.length; i++) {
       this.particles[i].draw();
     }
-
-    image(this.graphicBuffer, 0, 0);
   }
 
   selectIndex(vector) {
