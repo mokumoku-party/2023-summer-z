@@ -1,8 +1,9 @@
+import { Md5 } from "https://deno.land/std@0.123.0/hash/md5.ts";
 import { serveDir } from "https://deno.land/std@0.151.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.151.0/http/server.ts";
-import { Md5 } from "https://deno.land/std@0.123.0/hash/md5.ts";
-import "https://deno.land/std@0.193.0/dotenv/load.ts"
-import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts"
+import "https://deno.land/std@0.193.0/dotenv/load.ts";
+import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts";
+import { testLog } from "./test";
 
 // 必要な環境変数を取得
 const HOSTNAME = Deno.env.get("HOSTNAME")
@@ -20,9 +21,10 @@ const mySqlClient = await new Client().connect({
 serve(async (req) => {
   const pathname = new URL(req.url).pathname;
   console.log(pathname);
+  testLog();
 
   if (req.method === "GET" && pathname === "/welcome-message") {
-    return new Response("jigインターンへようこそ！");
+    return await fetch('https://api.cultivationdata.net/past?no=47636');
   }
   if (req.method === "POST" && pathname === "/save-firework") {
     const jsonStr = JSON.stringify(await req.json());
