@@ -33,12 +33,21 @@ class Firework {
 
   // 花火が打ち上がったらどのように落ちて行くのかを設定
   update(delta) {
+    const delta = deltaTime;
+
     if (!this.exploded) {
       this.rasingParticle.update(delta);
       if (this.rasingParticle.velocity.y >= 0) {
         document.dispatchEvent(onFireworkExplode);
         this.exploded = true;
         this.explode();
+      }
+    }
+
+    for (var i = this.particles.length - 1; i >= 0; i--) {
+      this.particles[i].update(delta);
+      if (this.particles[i].done) {
+        this.particles.splice(i, 1);
       }
     }
   }
@@ -77,18 +86,6 @@ class KikuFirework extends Firework {
     this.trailSize = 10;
   }
 
-  update() {
-    const delta = deltaTime;
-    super.update(delta);
-
-    for (var i = this.particles.length - 1; i >= 0; i--) {
-      this.particles[i].update(delta);
-      if (this.particles[i].done) {
-        this.particles.splice(i, 1);
-      }
-    }
-  }
-
   explode() {
     super.explode();
 
@@ -115,18 +112,6 @@ class BotanFirework extends Firework {
   constructor(colors) {
     super(colors);
     this.trailSize = 50;
-  }
-
-  update() {
-    const delta = deltaTime;
-    super.update(delta);
-
-    for (var i = this.particles.length - 1; i >= 0; i--) {
-      this.particles[i].update(delta);
-      if (this.particles[i].done) {
-        this.particles.splice(i, 1);
-      }
-    }
   }
 
   explode() {
