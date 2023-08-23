@@ -3,7 +3,7 @@ import { serveDir } from "https://deno.land/std@0.151.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.151.0/http/server.ts";
 import "https://deno.land/std@0.193.0/dotenv/load.ts";
 import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts";
-import { testLog } from "./test";
+import { testLog } from "./test.js";
 
 // 必要な環境変数を取得
 const HOSTNAME = Deno.env.get("HOSTNAME")
