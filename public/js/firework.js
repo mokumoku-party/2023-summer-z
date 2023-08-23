@@ -57,6 +57,17 @@ class Firework {
 
     image(this.graphicBuffer, 0, 0);
   }
+
+  selectColor(vector) {
+    let xyMag = vector.x * vector.x + vector.y * vector.y;
+    if (xyMag < 0.3) {
+      return color(0, 255, 255);
+    } else if (xyMag < 0.6) {
+      return color(128, 255, 255);
+    } else {
+      return color(200, 255, 255);
+    }
+  }
 }
 
 class KikuFirework extends Firework {
@@ -83,11 +94,17 @@ class KikuFirework extends Firework {
 
     const rPos = this.rasingParticle.position;
     for (var i = 0; i < 300; i++) {
+      const vec = p5.Vector.random3D();
+      const color = this.selectColor(vec);
+
       var p = new ExplodeParticle(
         this.graphicBuffer,
         createVector(rPos.x, rPos.y),
-        this.color,
-        random() < 0.5 ? 3 : 1
+        color,
+        random() < 0.5 ? 3 : 1,
+        0.99,
+        250,
+        vec.mult(10)
       );
       this.particles.push(p);
     }
@@ -116,19 +133,22 @@ class BotanFirework extends Firework {
     super.explode();
 
     const rPos = this.rasingParticle.position;
+    for (let i = 0; i < 200; i++) {
+      const vec = p5.Vector.random3D();
+      let star_color = this.selectColor(vec);
 
-    for (var i = 0; i < 200; i++) {
       var p = new ExplodeParticle(
         this.graphicBuffer,
         createVector(rPos.x, rPos.y),
-        this.color,
+        star_color,
         random(5, 8),
         0.97,
         300,
-        p5.Vector.random3D().mult(6),
+        vec.mult(6),
         5,
         createVector(0, 0)
       );
+
       this.particles.push(p);
     }
   }
