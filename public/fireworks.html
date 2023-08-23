@@ -101,7 +101,6 @@
         let color_list = color_data.split(',');
         colorMode(HSB);
         start(type_data, color(color_list[0], color_list[1], color_list[2]));
-        localStorage.clear();
       };
 
       document.addEventListener('onFireworkDispose', () => {
@@ -112,6 +111,7 @@
       });
 
       document.getElementById('create_button').onclick = () => {
+        localStorage.clear();
         location.href = '/'
       }
     </script>
