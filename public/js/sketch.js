@@ -32,11 +32,12 @@ function draw() {
     if (fireworks.length === 0) {
       for (let i = 0; i < 1; i++) {
         let firework;
+        // TODO: 本来は三種類設定される
         if (firework_type === '菊') {
-          firework = new KikuFirework(firework_colors);
+          firework = new Firework(firework_colors, ['牡丹', '菊', '菊']);
         }
         if (firework_type === '牡丹') {
-          firework = new BotanFirework(firework_colors);
+          firework = new Firework(firework_colors, ['菊', '牡丹', '牡丹']);
         }
 
         fireworks.push(firework);
@@ -45,8 +46,9 @@ function draw() {
 
     //　花火の見せ方
     blendMode(SCREEN);
+    const delta = deltaTime;
     for (var i = fireworks.length - 1; i >= 0; i--) {
-      fireworks[i].update();
+      fireworks[i].update(delta);
       fireworks[i].show();
       if (fireworks[i].done) {
         fireworks[i].dispose();
@@ -66,9 +68,7 @@ function start(type, colors) {
   deltaTime = 0;
   isReady = true;
   firework_type = type;
-  firework_colors = [
-    color(0, 255, 255),
-    color(35, 255, 255),
-    color(200, 255, 255),
-  ];
+
+  // TODO: 本来は引数をそのまま入れる
+  firework_colors = [colors, color(35, 255, 255), color(200, 255, 255)];
 }

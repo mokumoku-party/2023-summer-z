@@ -2,16 +2,48 @@ const onFireworkExplode = new CustomEvent('onFireworkExplode');
 
 const onFireworkDispose = new CustomEvent('onFireworkDispose');
 
+const starCount = 3;
+
+function kikuParticle(graphicBuffer, origin, vec, color) {
+  return new ExplodeParticle(
+    graphicBuffer,
+    origin,
+    color,
+    random() < 0.5 ? 3 : 1,
+    0.98,
+    250,
+    vec.mult(10),
+    15,
+    createVector(0, 0.05)
+  );
+}
+
+function botanParticle(graphicBuffer, origin, vec, color) {
+  return new ExplodeParticle(
+    graphicBuffer,
+    origin,
+    color,
+    random(5, 8),
+    0.97,
+    300,
+    vec.mult(6),
+    5,
+    createVector(0, 0)
+  );
+}
+
 class Firework {
   colors;
+  types;
   rasingParticle;
   exploded = false;
   particles = [];
   graphicBuffer = createGraphics(width, height);
   trailSize;
 
-  constructor(colors) {
+  constructor(colors, types) {
     this.colors = colors;
+    this.types = types;
     this.rasingParticle = new RasingParticle(
       this.graphicBuffer,
       createVector(random(width * 0.4, width * 0.6), height),
@@ -19,7 +51,36 @@ class Firework {
     );
   }
 
-  explode() {}
+  explode() {
+    let fireworkSum = 0;
+    for (let i = 0; i < starCount; i++) {
+      if (this.types[i] === '牡丹') {
+        fireworkSum += 50;
+      }
+      if (this.types[i] === '菊') {
+        fireworkSum += 100;
+      }
+    }
+
+    const rPos = this.rasingParticle.position;
+    for (let i = 0; i < fireworkSum; i++) {
+      const vec = p5.Vector.random3D();
+      const type = this.selectType(vec);
+      const particleColor = this.selectColor(vec);
+      const origin = createVector(rPos.x, rPos.y);
+
+      if (type === '牡丹') {
+        this.particles.push(
+          botanParticle(this.graphicBuffer, origin, vec, particleColor)
+        );
+      }
+      if (type === '菊') {
+        this.particles.push(
+          kikuParticle(this.graphicBuffer, origin, vec, particleColor)
+        );
+      }
+    }
+  }
 
   dispose() {
     document.dispatchEvent(onFireworkDispose);
@@ -33,8 +94,6 @@ class Firework {
 
   // 花火が打ち上がったらどのように落ちて行くのかを設定
   update(delta) {
-    const delta = deltaTime;
-
     if (!this.exploded) {
       this.rasingParticle.update(delta);
       if (this.rasingParticle.velocity.y >= 0) {
@@ -67,74 +126,22 @@ class Firework {
     image(this.graphicBuffer, 0, 0);
   }
 
-  selectColor(vector) {
+  selectIndex(vector) {
     let xyMag = vector.x * vector.x + vector.y * vector.y;
     if (xyMag < 0.3) {
-      return this.colors[0];
+      return 0;
     } else if (xyMag < 0.6) {
-      return this.colors[1];
+      return 1;
     } else {
-      return this.colors[2];
+      return 2;
     }
   }
-}
 
-class KikuFirework extends Firework {
-  constructor(colors) {
-    super(colors);
-
-    this.trailSize = 10;
+  selectType(vector) {
+    return this.types[this.selectIndex(vector)];
   }
 
-  explode() {
-    super.explode();
-
-    const rPos = this.rasingParticle.position;
-    for (var i = 0; i < 300; i++) {
-      const vec = p5.Vector.random3D();
-      const color = this.selectColor(vec);
-
-      var p = new ExplodeParticle(
-        this.graphicBuffer,
-        createVector(rPos.x, rPos.y),
-        color,
-        random() < 0.5 ? 3 : 1,
-        0.99,
-        250,
-        vec.mult(10)
-      );
-      this.particles.push(p);
-    }
-  }
-}
-
-class BotanFirework extends Firework {
-  constructor(colors) {
-    super(colors);
-    this.trailSize = 50;
-  }
-
-  explode() {
-    super.explode();
-
-    const rPos = this.rasingParticle.position;
-    for (let i = 0; i < 200; i++) {
-      const vec = p5.Vector.random3D();
-      let star_color = this.selectColor(vec);
-
-      var p = new ExplodeParticle(
-        this.graphicBuffer,
-        createVector(rPos.x, rPos.y),
-        star_color,
-        random(5, 8),
-        0.97,
-        300,
-        vec.mult(6),
-        5,
-        createVector(0, 0)
-      );
-
-      this.particles.push(p);
-    }
+  selectColor(vector) {
+    return this.colors[this.selectIndex(vector)];
   }
 }
