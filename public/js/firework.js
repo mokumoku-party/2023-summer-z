@@ -3,19 +3,19 @@ const onFireworkExplode = new CustomEvent('onFireworkExplode');
 const onFireworkDispose = new CustomEvent('onFireworkDispose');
 
 class Firework {
-  color;
+  colors;
   rasingParticle;
   exploded = false;
   particles = [];
   graphicBuffer = createGraphics(width, height);
   trailSize;
 
-  constructor(color) {
-    this.color = color;
+  constructor(colors) {
+    this.colors = colors;
     this.rasingParticle = new RasingParticle(
       this.graphicBuffer,
       createVector(random(width * 0.4, width * 0.6), height),
-      this.color
+      this.colors[0]
     );
   }
 
@@ -61,18 +61,18 @@ class Firework {
   selectColor(vector) {
     let xyMag = vector.x * vector.x + vector.y * vector.y;
     if (xyMag < 0.3) {
-      return color(0, 255, 255);
+      return this.colors[0];
     } else if (xyMag < 0.6) {
-      return color(128, 255, 255);
+      return this.colors[1];
     } else {
-      return color(200, 255, 255);
+      return this.colors[2];
     }
   }
 }
 
 class KikuFirework extends Firework {
-  constructor(color) {
-    super(color);
+  constructor(colors) {
+    super(colors);
 
     this.trailSize = 10;
   }
@@ -112,8 +112,8 @@ class KikuFirework extends Firework {
 }
 
 class BotanFirework extends Firework {
-  constructor(color) {
-    super(color);
+  constructor(colors) {
+    super(colors);
     this.trailSize = 50;
   }
 

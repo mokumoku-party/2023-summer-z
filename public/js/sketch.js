@@ -33,10 +33,10 @@ function draw() {
       for (let i = 0; i < 1; i++) {
         let firework;
         if (firework_type === '菊') {
-          firework = new KikuFirework(firework_color);
+          firework = new KikuFirework(firework_colors);
         }
         if (firework_type === '牡丹') {
-          firework = new BotanFirework(firework_color);
+          firework = new BotanFirework(firework_colors);
         }
 
         fireworks.push(firework);
@@ -59,12 +59,16 @@ function draw() {
 
 let isReady = false;
 let firework_type;
-let firework_color;
+let firework_colors;
 
-function start(type, color) {
+function start(type, colors) {
   loop();
   deltaTime = 0;
   isReady = true;
   firework_type = type;
-  firework_color = color;
+  firework_colors = [
+    color(0, 255, 255),
+    color(35, 255, 255),
+    color(200, 255, 255),
+  ];
 }
