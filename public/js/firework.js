@@ -13,7 +13,6 @@ function kikuParticle(graphicBuffer, origin, vec, color) {
     0.95,
     250,
     vec.mult(8),
-    15,
     createVector(0, 0.05)
   );
 }
@@ -27,7 +26,6 @@ function botanParticle(graphicBuffer, origin, vec, color) {
     0.97,
     300,
     vec.mult(6),
-    5,
     createVector(0, 0)
   );
 }

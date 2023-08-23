@@ -4,7 +4,6 @@ class AbstractParticle {
   acceleration;
   radius;
   color;
-  trailLength;
   graphicBuffer;
 
   constructor(pos, graphicBuffer) {
@@ -32,7 +31,6 @@ class RasingParticle extends AbstractParticle {
     this.acceleration = createVector(0, 0.7);
     this.color = color;
     this.radius = 6;
-    this.trailLength = 15;
   }
 }
 
@@ -49,7 +47,6 @@ class ExplodeParticle extends AbstractParticle {
     v = 0.95,
     initLife = 350,
     v0 = p5.Vector.random3D().mult(15),
-    trailLength = 15,
     acc = createVector(0, 0.1)
   ) {
     super(pos, graphicBuffer);
@@ -58,7 +55,6 @@ class ExplodeParticle extends AbstractParticle {
 
     this.color = color;
     this.radius = r;
-    this.trailLength = trailLength;
     this.#initLife = initLife;
     this.#lifespan = initLife;
 
