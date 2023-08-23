@@ -49,7 +49,7 @@ function draw() {
       fireworks[i].update();
       fireworks[i].show();
       if (fireworks[i].done) {
-        fireworks[i].clear();
+        fireworks[i].dispose();
         fireworks.splice(i, 1);
       }
     }

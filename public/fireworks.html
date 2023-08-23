@@ -16,13 +16,14 @@
         grid-auto-rows: 20vh;
         place-items: center;
       }
+
       .box1 {
         grid-column-start: 1;
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 5;
       }
-      .box2{
+      .box2 {
         grid-column-start: 1;
         grid-column-end: 2;
         grid-row-start: 5;
@@ -75,7 +76,9 @@
     <div class="wrapper">
       <div id="canvas" class="box1"></div>
       <!-- <div class="box2"><button>打ち上げボタン</button></div> -->
-      <div class="box2"><button id="create_button" disabled>つくる</button></div>
+      <div class="box2">
+        <button id="create_button" disabled>つくる</button>
+      </div>
       <img
         class="box3"
         src="/img/remocon_pull.png"
@@ -87,10 +90,6 @@
     </div>
     <script>
       document.getElementById('firing_button').onclick = () => {
-        document.getElementById("create_button").disabled = false;
-        document.getElementById("create_button").style.visibility = "visible";
-        document.getElementById("save_button").disabled = false;
-        document.getElementById("save_button").style.visibility = "visible"
         document.getElementById('firing_button').src = '/img/remocon_push.png';
 
         let type_data = localStorage.getItem('type');
@@ -104,6 +103,13 @@
         start(type_data, color(color_list[0], color_list[1], color_list[2]));
         localStorage.clear();
       };
+
+      document.addEventListener('onFireworkDispose', () => {
+        document.getElementById('create_button').enabled = true;
+        document.getElementById('create_button').style.visibility = 'visible';
+        document.getElementById('save_button').enabled = true;
+        document.getElementById('save_button').style.visibility = 'visible';
+      });
     </script>
   </body>
 </html>
