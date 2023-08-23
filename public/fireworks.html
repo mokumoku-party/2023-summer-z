@@ -105,11 +105,15 @@
       };
 
       document.addEventListener('onFireworkDispose', () => {
-        document.getElementById('create_button').enabled = true;
+        document.getElementById('create_button').disabled = false;
         document.getElementById('create_button').style.visibility = 'visible';
-        document.getElementById('save_button').enabled = true;
+        document.getElementById('save_button').disabled = false;
         document.getElementById('save_button').style.visibility = 'visible';
       });
+
+      document.getElementById('create_button').onclick = () => {
+        location.href = '/'
+      }
     </script>
   </body>
 </html>
