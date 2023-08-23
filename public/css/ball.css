@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #343451;
+  color: white;
+}
+
+header {
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+}
+
+#err {
+  color: lightcoral;
+}
+
+.content {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 2em;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.selected-star {
+  max-width: 80%;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+}
+
+.star-list {
+  display: flex;
+  flex-flow: row;
+  gap: 0px;
+}
+
+.star-container {
+  width: calc(6em + 2px);
+  height: calc(6em + 2px);
+  border: 1px solid white;
+  padding: 1em;
+}
+
+.star {
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
+}
+
