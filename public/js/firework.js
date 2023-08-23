@@ -1,3 +1,7 @@
+const onFireworkExplode = new CustomEvent('onFireworkExplode');
+
+const onFireworkDispose = new CustomEvent('onFireworkDispose');
+
 class Firework {
   color;
   rasingParticle;
@@ -17,7 +21,8 @@ class Firework {
 
   explode() {}
 
-  clear() {
+  dispose() {
+    document.dispatchEvent(onFireworkDispose);
     this.graphicBuffer.remove();
   }
 
@@ -31,6 +36,7 @@ class Firework {
     if (!this.exploded) {
       this.rasingParticle.update(delta);
       if (this.rasingParticle.velocity.y >= 0) {
+        document.dispatchEvent(onFireworkExplode);
         this.exploded = true;
         this.explode();
       }
