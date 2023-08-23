@@ -114,6 +114,18 @@
         localStorage.clear();
         location.href = '/'
       }
+
+      document.getElementById('save_button').onclick = async() => {
+        const res = await fetch('/save-firework', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            type: localStorage.getItem('type'),
+            color: localStorage.getItem('color')
+          })
+        })
+        alert("再びレシピを呼び出すための呪文：" + await res.text())
+      }
     </script>
   </body>
 </html>
