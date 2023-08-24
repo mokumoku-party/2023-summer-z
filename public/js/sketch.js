@@ -4,8 +4,8 @@ let bgColor;
 
 let graphicBuffers = [];
 let raisingTrail = 15;
-let kikuTrail = 15;
-let botanTrail = 5;
+let kikuTrail = 30;
+let botanTrail = 3;
 
 function setup() {
   const result = document.getElementById('canvas');
@@ -64,13 +64,15 @@ function draw() {
     }
 
     //　花火の更新
-    graphicBuffers[0].background(0, 255 / raisingTrail);
-    graphicBuffers[1].background(0, 255 / botanTrail);
-    graphicBuffers[2].background(0, 255 / kikuTrail);
+    graphicBuffers[0].background(0, Math.ceil(255 / raisingTrail));
+    graphicBuffers[1].background(0, Math.ceil(255 / botanTrail));
+    graphicBuffers[2].background(0, Math.ceil(255 / kikuTrail));
 
     const delta = deltaTime;
+    const frame = frameRate();
     for (var i = fireworks.length - 1; i >= 0; i--) {
-      fireworks[i].update(delta);
+      // フレームレートを考慮して更新をかける
+      fireworks[i].update(delta * frame * 0.001);
       fireworks[i].show();
       if (fireworks[i].done) {
         fireworks[i].dispose();

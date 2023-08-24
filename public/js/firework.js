@@ -10,10 +10,10 @@ function kikuParticle(graphicBuffer, origin, vec, color) {
     origin,
     color,
     random() < 0.5 ? 3 : 1,
-    0.95,
+    0.98,
     250,
-    vec.mult(8),
-    createVector(0, 0.05)
+    vec.mult(5),
+    createVector(0, 0.04)
   );
 }
 
@@ -23,7 +23,7 @@ function botanParticle(graphicBuffer, origin, vec, color) {
     origin,
     color,
     random(5, 8),
-    0.97,
+    0.93,
     300,
     vec.mult(6),
     createVector(0, 0)
@@ -93,9 +93,9 @@ class Firework {
   }
 
   // 花火が打ち上がったらどのように落ちて行くのかを設定
-  update(delta) {
+  update(dt) {
     if (!this.exploded) {
-      this.rasingParticle.update(delta);
+      this.rasingParticle.update(dt);
       if (this.rasingParticle.velocity.y >= 0) {
         document.dispatchEvent(onFireworkExplode);
         this.exploded = true;
@@ -104,7 +104,7 @@ class Firework {
     }
 
     for (var i = this.particles.length - 1; i >= 0; i--) {
-      this.particles[i].update(delta);
+      this.particles[i].update(dt);
       if (this.particles[i].done) {
         this.particles.splice(i, 1);
       }

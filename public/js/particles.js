@@ -13,8 +13,8 @@ class AbstractParticle {
   }
 
   update(delta) {
-    this.velocity.add(this.acceleration);
-    this.position.add(p5.Vector.mult(this.velocity, delta * 0.05));
+    this.velocity.add(p5.Vector.mult(this.acceleration, delta));
+    this.position.add(p5.Vector.mult(this.velocity, delta));
   }
 
   draw() {
@@ -27,8 +27,8 @@ class AbstractParticle {
 class RasingParticle extends AbstractParticle {
   constructor(graphicBuffer, pos, color) {
     super(pos, graphicBuffer);
-    this.velocity = createVector(0, random(-29, -20));
-    this.acceleration = createVector(0, 0.7);
+    this.velocity = createVector(0, random(2, 3) * -3);
+    this.acceleration = createVector(0, 0.1);
     this.color = color;
     this.radius = 6;
   }
@@ -39,16 +39,7 @@ class ExplodeParticle extends AbstractParticle {
   #velocityDist;
   #initLife;
 
-  constructor(
-    graphicBuffer,
-    pos,
-    color,
-    r,
-    v = 0.95,
-    initLife = 350,
-    v0 = p5.Vector.random3D().mult(15),
-    acc = createVector(0, 0.1)
-  ) {
+  constructor(graphicBuffer, pos, color, r, v, initLife, v0, acc) {
     super(pos, graphicBuffer);
     this.velocity = v0;
     this.acceleration = acc;
@@ -64,8 +55,8 @@ class ExplodeParticle extends AbstractParticle {
   update(delta) {
     super.update(delta);
 
-    this.velocity.mult(this.#velocityDist);
-    this.#lifespan -= delta / 4.0;
+    this.velocity.mult(this.#velocityDist * delta);
+    this.#lifespan -= delta * 4.0;
 
     // 最後は光がだんだん消えていくように
     if (this.#lifespan < this.#initLife * 0.2) {
