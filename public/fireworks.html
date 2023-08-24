@@ -100,7 +100,10 @@
 
         let color_list = color_data.split(',');
         colorMode(HSB);
-        start(type_data, color(color_list[0], color_list[1], color_list[2]));
+        startMakeMode(
+          type_data,
+          color(color_list[0], color_list[1], color_list[2])
+        );
       };
 
       document.addEventListener('onFireworkDispose', () => {
@@ -112,20 +115,20 @@
 
       document.getElementById('create_button').onclick = () => {
         localStorage.clear();
-        location.href = '/'
-      }
+        location.href = '/';
+      };
 
-      document.getElementById('save_button').onclick = async() => {
+      document.getElementById('save_button').onclick = async () => {
         const res = await fetch('/save-firework', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             type: localStorage.getItem('type'),
-            color: localStorage.getItem('color')
-          })
-        })
-        alert("再びレシピを呼び出すための呪文：" + await res.text())
-      }
+            color: localStorage.getItem('color'),
+          }),
+        });
+        alert('再びレシピを呼び出すための呪文：' + (await res.text()));
+      };
     </script>
   </body>
 </html>

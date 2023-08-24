@@ -8,6 +8,31 @@ let kikuTrail = 30;
 let botanTrail = 3;
 const standardFrame = 60;
 
+function FireworkMakeMode() {
+  if (fireworks.length === 0) {
+    for (let i = 0; i < 1; i++) {
+      let firework;
+      // TODO: 本来は三種類設定される
+      if (firework_type === '菊') {
+        firework = new Firework(
+          firework_colors,
+          ['牡丹', '菊', '菊'],
+          graphicBuffers
+        );
+      }
+      if (firework_type === '牡丹') {
+        firework = new Firework(
+          firework_colors,
+          ['菊', '牡丹', '牡丹'],
+          graphicBuffers
+        );
+      }
+
+      fireworks.push(firework);
+    }
+  }
+}
+
 function setup() {
   const result = document.getElementById('canvas');
   const canvas = createCanvas(windowWidth, (windowHeight * 4) / 5); // canvasを作成
@@ -41,28 +66,7 @@ function draw() {
   colorMode(HSB);
 
   if (isReady) {
-    if (fireworks.length === 0) {
-      for (let i = 0; i < 1; i++) {
-        let firework;
-        // TODO: 本来は三種類設定される
-        if (firework_type === '菊') {
-          firework = new Firework(
-            firework_colors,
-            ['牡丹', '菊', '菊'],
-            graphicBuffers
-          );
-        }
-        if (firework_type === '牡丹') {
-          firework = new Firework(
-            firework_colors,
-            ['菊', '牡丹', '牡丹'],
-            graphicBuffers
-          );
-        }
-
-        fireworks.push(firework);
-      }
-    }
+    FireworkMakeMode();
 
     //　花火の更新
     graphicBuffers[0].background(0, Math.ceil(255 / raisingTrail));
@@ -96,7 +100,7 @@ let isReady = false;
 let firework_type;
 let firework_colors;
 
-function start(type, colors) {
+function startMakeMode(type, colors) {
   loop();
   deltaTime = 0;
   isReady = true;
