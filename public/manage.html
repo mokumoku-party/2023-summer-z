@@ -5,14 +5,22 @@
         <meta charset="utf-8">
     </head>
     <body>
-        色の名前：<input type="text" id="color-name">
-        カラーコード：<input type="text" id="color-code">
-        <button id="regist">登録</button>
-        <span id="res"></span>
+        <div>
+            色の名前：<input type="text" id="color_name">
+            カラーコード：<input type="text" id="color_code">
+            <button id="color_regist">色の登録</button>
+            <span id="color_res"></span>
+        </div>
+        <div>
+            花火の種類の名前：<input type="text" id="type_name">
+            画像のURL：<input type="text" id="img_url">
+            <button id="type_regist">花火の画像URLの登録</button>
+            <span id="type_res"></span>
+        </div>
         <script>
-            document.getElementById("regist").onclick = async() => {
-                const name = document.getElementById("color-name").value
-                const code = document.getElementById("color-code").value
+            document.getElementById("color_regist").onclick = async() => {
+                const name = document.getElementById("color_name").value
+                const code = document.getElementById("color_code").value
                 const res = await fetch("/regist-color-code", {
                     method: "POST",
                     headers: {'Content-Type': 'application/json'},
@@ -21,7 +29,20 @@
                         code: code
                     })
                 });
-                document.getElementById("res").innerText = await res.text();
+                document.getElementById("color_res").innerText = await res.text();
+            }
+            document.getElementById("type_regist").onclick = async() => {
+                const name = document.getElementById("type_name").value
+                const url = document.getElementById("img_url").value
+                const res = await fetch("/regist-type", {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        name: name,
+                        url: url
+                    })
+                });
+                document.getElementById("type_res").innerText = await res.text();
             }
         </script>
     </body>

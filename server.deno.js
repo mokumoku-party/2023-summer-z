@@ -58,6 +58,21 @@ serve(async (req) => {
     return new Response("空欄があります")
   }
 
+  if (req.method === "POST" && pathname === "/regist-type") {
+    const json = await req.json();
+    const name = json.name;
+    const url = json.url;
+    if (name !== "" && url !== ""){
+      const result = await mySqlClient.execute("insert into type (name, url) value (?, ?);", [name,url]);
+      if (result.affectedRows === 1){
+        return new Response("登録完了しました")
+      }else{
+        return new Response("登録失敗しました")
+      }
+    }
+    return new Response("空欄があります")
+  }
+
   return serveDir(req, {
     fsRoot: "public",
     urlRoot: "",
