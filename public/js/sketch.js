@@ -6,6 +6,7 @@ let graphicBuffers = [];
 let raisingTrail = 15;
 let kikuTrail = 30;
 let botanTrail = 3;
+const standardFrame = 60;
 
 function setup() {
   const result = document.getElementById('canvas');
@@ -26,7 +27,7 @@ function setup() {
     createGraphics(width, height),
   ];
 
-  frameRate(120);
+  frameRate(standardFrame);
   noLoop();
 }
 
@@ -69,10 +70,10 @@ function draw() {
     graphicBuffers[2].background(0, Math.ceil(255 / kikuTrail));
 
     const delta = deltaTime;
-    const frame = frameRate();
+    const currentFrame = frameRate();
     for (var i = fireworks.length - 1; i >= 0; i--) {
       // フレームレートを考慮して更新をかける
-      fireworks[i].update(delta * frame * 0.001);
+      fireworks[i].update(delta * currentFrame * 0.001);
       fireworks[i].show();
       if (fireworks[i].done) {
         fireworks[i].dispose();
