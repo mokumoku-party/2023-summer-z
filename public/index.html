@@ -1,118 +1,72 @@
 <!DOCTYPE html>
 <html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <title>Hanabishi</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/button_outline_grow.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
-  <title>Hanabishi</title>
-</head>
+  <body>
+    <header>
+      <h1 class="unselectable tapable" id="title"></h1>
+    </header>
 
-<body x-data="recipe()">
-  <header>
-    <h1>H A N A B I S H I</h1>
-  </header>
-  <div class="recipe">
-    <h2>種類</h2>
-    <div class="type-list">
-      <template x-for="[type, img] in Object.entries(types)">
-        <div class="type-tile" @click="selectType(type)" :class="{ 'selected': selectedType === type }">
-          <img :src="img" :alt="type">
-          <p x-text="type"></p>
-        </div>
-      </template>
-    </div>
+    <main>
+      <button class="start-button" id="btn">
+        <img
+          class="button-img"
+          src="./img/goshaku-dama/step_07.svg"
+          alt="Button Image"
+        />
+      </button>
+    </main>
 
+    <script>
+      document
+        .getElementById('btn')
+        .addEventListener('click', function (event) {
+          location.href = './stars.html';
+        });
+    </script>
 
-    <h2>色</h2>
-    <div class="color-list">
-      <template x-for="[name, hsb] in Object.entries(colors)">
-        <div class="color-tile" @click="selectColor(name)" :class="{ 'selected': selectedColor === name }"
-          :style="`background-color: ${hsb2hsl(hsb[0], hsb[1], hsb[2])}`"></div>
-      </template>
-    </div>
+    <script>
+      const titleText = 'HANABISHI';
+      window.addEventListener('load', (event) => {
+        const header = document.getElementById('title');
 
-    <p id="err"></p>
+        for (let i = 0; i < titleText.length; i++) {
+          if (i > 0) header.innerHTML += ' ';
 
-    <button class="buttonOutlineGlow" @click="submit()">
-      <span class="buttonOutlineGlow_bg"></span>
-      <span class="buttonOutlineGlow_item">花火を作る</span>
-    </button>
-  </div>
-
-  <script>
-    const recipe = () => {
-      return {
-        selectedType: '',
-        selectedColor: '',
-        colors: {
-          beni: [16, 100, 100],
-          purple: [271, 80, 88],
-          orange: [38, 100, 100],
-          light_green: [90, 100, 100],
-          red: [0, 100, 100],
-          blue: [240, 100, 100],
-          green: [120, 100, 100],
-          yellow: [60, 100, 100]
-        },
-        types: {
-          牡丹: './img/01_botan.png',
-          菊: './img/02_kiku.png'
-        },
-        selectColor(name) { this.selectedColor = name; },
-        selectType(type) { this.selectedType = type; },
-        getHsbString(hsb) { return `hsb(${hsb[0]}, ${hsb[1]}%, ${hsb[2]}%)`; },
-        hsb2hsl(h, s, b) {
-          // h（Hue）は0~360の範囲でそのまま使用
-          h = h % 360;
-
-          // s（Saturation）とb（Brightness）は0~100の範囲に正規化
-          s = s / 100.0;
-          b = b / 100.0;
-
-          // L（Lightness）の値を計算
-          const L = (2 - s) * b / 2;
-
-          let S;
-          if (L < 1) {
-            S = s * b / (L < 0.5 ? L * 2 : 2 - L * 2);
-          } else {
-            S = 0;
-          }
-
-          // LとSを0~100の範囲に変換
-          const L100 = L * 100;
-          const S100 = S * 100;
-
-          // HSL文字列を返す
-          return `hsl(${h}, ${S100}%, ${L100}%)`;
-        },
-        submit() {
-          // 種類が選択されていなければエラーを表示する
-          if (this.selectedType === '') {
-            err.innerText = '種類を選択してください';
-            return;
-          } else if (this.selectedColor === '') {
-            err.innerText = '色を選択してください';
-            return;
-          }
-
-          const color = this.colors[this.selectedColor].toString();
-          console.log(this.selectedType);
-          console.log(color);
-
-
-          localStorage.setItem('type', this.selectedType);
-          localStorage.setItem('color', color);
-
-          location.href = './fireworks.html';
+          header.innerHTML += `<span id="t${i}">${titleText[i]}</span>`;
         }
-      }
-    }
-  </script>
-</body>
+      });
 
+      let count = 0;
+      let title = document.getElementById('title');
+      title.addEventListener('click', function (event) {
+        const margin = 2;
+
+        if (count === titleText.length + margin - 1) {
+          localStorage.setItem('easterEgg', 'enable');
+          location.href = './fireworks.html';
+          return;
+        }
+        ++count;
+
+        const index = count - margin;
+        if (count >= margin) {
+          document.getElementById(`t${index}`).style.color = `hsl(${
+            (index * 360) / titleText.length
+          }, 100%, 80%)`;
+        }
+
+        if (count === titleText.length + margin - 1) {
+          title.style.textShadow = '0 1px 10px #FFCC00';
+        }
+      });
+    </script>
+  </body>
 </html>
