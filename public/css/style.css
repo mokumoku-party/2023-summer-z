@@ -18,6 +18,38 @@ header {
   color: lightcoral;
 }
 
+.progress-circle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 8em;
+  gap: 1em;
+}
+
+.progress{
+  width: 30vw;
+  max-height: 6em;
+  max-width: 6em;
+  height: 30vw;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+.grow{
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+  position: relative;
+  animation: glow 2s linear infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+  }
+}
+
 .recipe {
   display: flex;
   flex-flow: column nowrap;
@@ -77,4 +109,16 @@ header {
   border: 8px solid white;
 }
 
+.progress img {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  visibility: hidden;
+}
 
+.button-list{
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  gap: 1em;
+}
