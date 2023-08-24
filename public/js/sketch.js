@@ -122,7 +122,6 @@ function startMakeMode(types, colors) {
   start('make');
 
   firework_types = types;
-  // TODO: 本来は引数をそのまま入れる
   firework_colors = colors;
 }
 

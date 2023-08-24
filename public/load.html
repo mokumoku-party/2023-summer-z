@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <title>Hanabishi</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>花火玉を読み込む</h1>
+    </header>
+
+    <main>
+      <form id="form">
+        <input type="text" id="textInput" name="textInput" />
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+
+    <script>
+      document
+        .getElementById('form')
+        .addEventListener('submit', async function (event) {
+          event.preventDefault();
+
+          const hash = document.getElementById('textInput').value;
+          const response = await fetch(`/load-firework?hash=${hash}`);
+          const data = await response.json();
+
+          localStorage.setItem('first', JSON.stringify(data[0]));
+          localStorage.setItem('second', JSON.stringify(data[1]));
+          localStorage.setItem('third', JSON.stringify(data[2]));
+
+          location.href = './fireworks.html';
+        });
+    </script>
+  </body>
+</html>

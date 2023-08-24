@@ -138,9 +138,9 @@
 
       document.getElementById('save_button').onclick = async () => {
         let data = [
-          localStorage.getItem('first'),
-          localStorage.getItem('second'),
-          localStorage.getItem('third'),
+          JSON.parse(localStorage.getItem('first')),
+          JSON.parse(localStorage.getItem('second')),
+          JSON.parse(localStorage.getItem('third')),
         ];
 
         if (data.some((x) => x === null)) {
