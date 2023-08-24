@@ -10,6 +10,8 @@ const standardFrame = 60;
 
 function FireworkMakeMode() {
   if (fireworks.length === 0) {
+    const launchPos = createVector(random(width * 0.4, width * 0.6), height);
+
     for (let i = 0; i < 1; i++) {
       let firework;
       // TODO: 本来は三種類設定される
@@ -17,19 +19,38 @@ function FireworkMakeMode() {
         firework = new Firework(
           firework_colors,
           ['牡丹', '菊', '菊'],
-          graphicBuffers
+          graphicBuffers,
+          launchPos
         );
       }
       if (firework_type === '牡丹') {
         firework = new Firework(
           firework_colors,
           ['菊', '牡丹', '牡丹'],
-          graphicBuffers
+          graphicBuffers,
+          launchPos
         );
       }
 
       fireworks.push(firework);
     }
+  }
+}
+
+function FireworkContestMode() {
+  if (random() < 0.3) {
+    let firework;
+    const _type = () => random(['菊', '牡丹']);
+    const _color = () => color(random(255), 255, 255);
+
+    firework = new Firework(
+      [_color(), _color(), _color()],
+      [_type(), _type(), _type()],
+      graphicBuffers,
+      createVector(random(0.1, 0.9) * width, height)
+    );
+
+    fireworks.push(firework);
   }
 }
 
@@ -66,7 +87,11 @@ function draw() {
   colorMode(HSB);
 
   if (isReady) {
-    FireworkMakeMode();
+    if (mode === 'make') {
+      FireworkMakeMode();
+    } else if (mode === 'contest') {
+      FireworkContestMode();
+    }
 
     //　花火の更新
     graphicBuffers[0].background(0, Math.ceil(255 / raisingTrail));
@@ -99,13 +124,23 @@ function draw() {
 let isReady = false;
 let firework_type;
 let firework_colors;
+let mode;
 
-function startMakeMode(type, colors) {
+function start(_mode) {
   loop();
   deltaTime = 0;
   isReady = true;
-  firework_type = type;
+  mode = _mode;
+}
 
+function startMakeMode(type, colors) {
+  start('make');
+
+  firework_type = type;
   // TODO: 本来は引数をそのまま入れる
   firework_colors = [colors, color(35, 255, 255), color(200, 255, 255)];
+}
+
+function startContestMode() {
+  start('contest');
 }

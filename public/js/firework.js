@@ -40,14 +40,14 @@ class Firework {
 
   trailSize;
 
-  constructor(colors, types, buffers) {
+  constructor(colors, types, buffers, launch) {
     this.buffers = buffers;
     this.colors = colors;
     this.types = types;
 
     this.rasingParticle = new RasingParticle(
       this.buffers[0],
-      createVector(random(width * 0.4, width * 0.6), height),
+      launch,
       this.colors[0]
     );
   }
