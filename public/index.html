@@ -14,6 +14,24 @@
       <h1 class="unselectable tapable" id="title"></h1>
     </header>
 
+    <main>
+      <button class="start-button" id="btn">
+        <img
+          class="button-img"
+          src="./img/goshaku-dama/step_07.svg"
+          alt="Button Image"
+        />
+      </button>
+    </main>
+
+    <script>
+      document
+        .getElementById('btn')
+        .addEventListener('click', function (event) {
+          location.href = './fireworks.html';
+        });
+    </script>
+
     <script>
       const titleText = 'HANABISHI';
       window.addEventListener('load', (event) => {
