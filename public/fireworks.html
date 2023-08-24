@@ -89,28 +89,39 @@
       <div class="box4"><button id="save_button" disabled>ほぞん</button></div>
     </div>
     <script>
+      let hasEasterEgg = false;
+      window.addEventListener('load', (event) => {
+        if (localStorage.getItem('easterEgg') === 'enable') {
+          hasEasterEgg = true;
+          localStorage.removeItem('easterEgg');
+        }
+      });
+
       document.getElementById('firing_button').onclick = () => {
         document.getElementById('firing_button').src = '/img/remocon_push.png';
 
-        if (localStorage.getItem('easterEgg') === 'enable') {
-          localStorage.removeItem('easterEgg');
+        if (hasEasterEgg === true) {
           startContestMode();
           return;
         }
 
-        let type_data = localStorage.getItem('type');
-        let color_data = localStorage.getItem('color');
-        if (type_data === undefined || color_data === undefined) {
+        let data = [
+          JSON.parse(localStorage.getItem('first')),
+          JSON.parse(localStorage.getItem('second')),
+          JSON.parse(localStorage.getItem('third')),
+        ];
+
+        if (data.some((x) => x === null)) {
           return;
         }
 
-        let color_list = color_data.split(',');
         colorMode(HSB);
-
-        startMakeMode(
-          type_data,
-          color(color_list[0], color_list[1], color_list[2])
+        let type_data = data.map((x) => x.type);
+        let color_data = data.map((x) =>
+          color(x.color[0], x.color[1], x.color[2])
         );
+
+        startMakeMode(type_data, color_data);
       };
 
       document.addEventListener('onFireworkDispose', () => {
@@ -126,20 +137,20 @@
       };
 
       document.getElementById('save_button').onclick = async () => {
-        const _type = localStorage.getItem('type');
-        const _color = localStorage.getItem('color');
+        let data = [
+          localStorage.getItem('first'),
+          localStorage.getItem('second'),
+          localStorage.getItem('third'),
+        ];
 
-        if (_type === null || _color === null) {
+        if (data.some((x) => x === null)) {
           return;
         }
 
         const res = await fetch('/save-firework', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: _type,
-            color: _color,
-          }),
+          body: JSON.stringify(data),
         });
         alert('再びレシピを呼び出すための呪文：' + (await res.text()));
       };
