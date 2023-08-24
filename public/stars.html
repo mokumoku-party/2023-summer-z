@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/button_outline_grow.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
+  <title>Hanabishi</title>
+</head>
+
+<body x-data="recipe()">
+
+  <header>
+    <h1 id="position">一つ目</h1>
+  </header>
+
+  <div class="progress-circle">
+      <div class="progress grow" id="progress1">
+        <img id="first-type"/>
+      </div>
+      <div class="progress" id="progress2">
+        <img id="second-type" />
+      </div>
+      <div class="progress" id="progress3">
+        <img id="third-type" />
+      </div>
+  </div>
+
+  <div class="recipe">
+    <h2>種類</h2>
+    <div class="type-list">
+      <template x-for="[type, img] in Object.entries(types)">
+        <div class="type-tile" @click="selectType(type)" :class="{ 'selected': selectedType === type }">
+          <img :src="img" :alt="type">
+          <p x-text="type"></p>
+        </div>
+      </template>
+    </div>
+
+
+    <h2>色</h2>
+    <div class="color-list">
+      <template x-for="[name, hsb] in Object.entries(colors)">
+        <div class="color-tile" @click="selectColor(name)" :class="{ 'selected': selectedColor === name }"
+          :style="`background-color: ${hsb2hsl(hsb[0], hsb[1], hsb[2])}`"></div>
+      </template>
+    </div>
+
+    <p id="err"></p>
+  </div>
+  <div class="button-list">
+    <button class="buttonOutlineGlow" @click="undo()">
+      <span class="buttonOutlineGlow_bg"></span>
+      <span class="buttonOutlineGlow_item">ひとつ前に戻る</span>
+    </button>
+    <button class="buttonOutlineGlow" @click="submit()">
+      <span class="buttonOutlineGlow_bg"></span>
+      <span class="buttonOutlineGlow_item">次に進む</span>
+    </button>
+  </div>
+
+  <script>
+    window.onload = () => {
+      let firstStarExist = false;
+      let secondStarExist = false;
+    }
+    const recipe = () => {
+      return {
+        selectedType: '',
+        selectedColor: '',
+        colors: {
+          beni: [16, 100, 100],
+          purple: [271, 80, 88],
+          orange: [38, 100, 100],
+          light_green: [90, 100, 100],
+          red: [0, 100, 100],
+          blue: [240, 100, 100],
+          green: [120, 100, 100],
+          yellow: [60, 100, 100]
+        },
+        types: {
+          牡丹: './img/kiku.svg',
+          菊: './img/kiku.svg'
+        },
+        selectColor(name) { 
+          this.selectedColor = name;
+          const color = this.colors[name];
+          if(this.secondStarExist){
+            document.getElementById("progress3").style.backgroundColor = this.hsb2hsl(color[0], color[1], color[2]);
+          }else if(this.firstStarExist){
+            document.getElementById("progress2").style.backgroundColor = this.hsb2hsl(color[0], color[1], color[2]);
+          }else{
+            document.getElementById("progress1").style.backgroundColor = this.hsb2hsl(color[0], color[1], color[2]);
+          }
+        },
+        selectType(type) {
+          this.selectedType = type;
+          if(this.secondStarExist){
+            document.getElementById("third-type").src = this.types[type];
+            document.getElementById("third-type").style.visibility = "visible"
+          }else if(this.firstStarExist){
+            document.getElementById("second-type").src = this.types[type];
+            document.getElementById("second-type").style.visibility = "visible"
+          }else{
+            document.getElementById("first-type").src = this.types[type];
+            document.getElementById("first-type").style.visibility = "visible"
+          }
+        },
+        getHsbString(hsb) { return `hsb(${hsb[0]}, ${hsb[1]}%, ${hsb[2]}%)`; },
+        hsb2hsl(h, s, b) {
+          // h（Hue）は0~360の範囲でそのまま使用
+          h = h % 360;
+
+          // s（Saturation）とb（Brightness）は0~100の範囲に正規化
+          s = s / 100.0;
+          b = b / 100.0;
+
+          // L（Lightness）の値を計算
+          const L = (2 - s) * b / 2;
+
+          let S;
+          if (L < 1) {
+            S = s * b / (L < 0.5 ? L * 2 : 2 - L * 2);
+          } else {
+            S = 0;
+          }
+
+          // LとSを0~100の範囲に変換
+          const L100 = L * 100;
+          const S100 = S * 100;
+
+          // HSL文字列を返す
+          return `hsl(${h}, ${S100}%, ${L100}%)`;
+        },
+        submit() {
+          // 種類が選択されていなければエラーを表示する
+          if (this.selectedType === '') {
+            err.innerText = '種類を選択してください';
+            return;
+          } else if (this.selectedColor === '') {
+            err.innerText = '色を選択してください';
+            return;
+          }
+
+          const color = this.colors[this.selectedColor];
+          const colorStr = color.toString();
+          console.log(this.selectedType);
+          console.log(color);
+          if(this.firstStarExist && this.secondStarExist){
+            localStorage.setItem('third', JSON.stringify({type: this.selectedType,color: color}));
+            location.href = "/fireworks.html"
+            return
+          }
+          if(this.firstStarExist){
+            this.secondStarExist = true;
+            localStorage.setItem('second', JSON.stringify({type: this.selectedType,color: color}));
+            document.getElementById("third-type").src = this.types[this.selectedType];
+            document.getElementById("third-type").style.visibility = "visible"
+            document.getElementById("progress3").classList.add("grow")
+            document.getElementById("progress2").classList.remove("grow")
+            document.getElementById("progress3").style.backgroundColor = this.hsb2hsl(color[0], color[1], color[2]);
+            document.getElementById("position").innerText = "三つ目"
+            return;
+          }
+          
+          document.getElementById("second-type").src = this.types[this.selectedType];
+          document.getElementById("second-type").style.visibility = "visible"
+          document.getElementById("progress2").classList.add("grow")
+          document.getElementById("progress1").classList.remove("grow")
+          document.getElementById("progress2").style.backgroundColor = this.hsb2hsl(color[0], color[1], color[2]);
+          document.getElementById("position").innerText = "二つ目"
+          this.firstStarExist = true;
+
+          localStorage.setItem('first', JSON.stringify({type: this.selectedType,color: color}));
+
+        },
+        undo() {
+          if(this.secondStarExist){
+            document.getElementById("progress3").style.backgroundColor = "";
+            this.secondStarExist = false;
+            localStorage.removeItem('second');
+            localStorage.removeItem('third')
+            document.getElementById("position").innerText = "二つ目"
+            document.getElementById("third-type").style.visibility = "hidden"
+            document.getElementById("progress2").classList.add("grow")
+            document.getElementById("progress3").classList.remove("grow")
+            return;
+          }
+          if(this.firstStarExist){
+            document.getElementById("progress2").style.backgroundColor = "";
+            this.firstStarExist = false;
+            localStorage.removeItem('first');
+            document.getElementById("position").innerText = "一つ目"
+            document.getElementById("second-type").style.visibility = "hidden"
+            document.getElementById("progress1").classList.add("grow")
+            document.getElementById("progress2").classList.remove("grow")
+            return;
+          }
+          location.href = '/'
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
