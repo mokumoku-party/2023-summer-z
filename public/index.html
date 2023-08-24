@@ -15,7 +15,14 @@
     </header>
 
     <main>
-      <button class="start-button" id="btn">
+      <button class="start-button" id="make-button">
+        <img
+          class="button-img"
+          src="./img/goshaku-dama/step_04.svg"
+          alt="Button Image"
+        />
+      </button>
+      <button class="start-button" id="load-button">
         <img
           class="button-img"
           src="./img/goshaku-dama/step_07.svg"
@@ -26,9 +33,14 @@
 
     <script>
       document
-        .getElementById('btn')
+        .getElementById('make-button')
         .addEventListener('click', function (event) {
           location.href = './stars.html';
+        });
+      document
+        .getElementById('load-button')
+        .addEventListener('click', function (event) {
+          location.href = './load.html';
         });
     </script>
 

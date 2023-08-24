@@ -11,29 +11,14 @@ const standardFrame = 60;
 function FireworkMakeMode() {
   if (fireworks.length === 0) {
     const launchPos = createVector(random(width * 0.4, width * 0.6), height);
+    const firework = new Firework(
+      firework_colors,
+      firework_types,
+      graphicBuffers,
+      launchPos
+    );
 
-    for (let i = 0; i < 1; i++) {
-      let firework;
-      // TODO: 本来は三種類設定される
-      if (firework_type === '菊') {
-        firework = new Firework(
-          firework_colors,
-          ['牡丹', '菊', '菊'],
-          graphicBuffers,
-          launchPos
-        );
-      }
-      if (firework_type === '牡丹') {
-        firework = new Firework(
-          firework_colors,
-          ['菊', '牡丹', '牡丹'],
-          graphicBuffers,
-          launchPos
-        );
-      }
-
-      fireworks.push(firework);
-    }
+    fireworks.push(firework);
   }
 }
 
@@ -122,7 +107,7 @@ function draw() {
 }
 
 let isReady = false;
-let firework_type;
+let firework_types;
 let firework_colors;
 let mode;
 
@@ -133,12 +118,11 @@ function start(_mode) {
   mode = _mode;
 }
 
-function startMakeMode(type, colors) {
+function startMakeMode(types, colors) {
   start('make');
 
-  firework_type = type;
-  // TODO: 本来は引数をそのまま入れる
-  firework_colors = [colors, color(35, 255, 255), color(200, 255, 255)];
+  firework_types = types;
+  firework_colors = colors;
 }
 
 function startContestMode() {
