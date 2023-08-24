@@ -6,7 +6,7 @@ import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts"
 
 // 必要な環境変数を取得
 const HOSTNAME = Deno.env.get("HOSTNAME")
-const USER = Deno.env.get("USER")
+const USER = Deno.env.get("MYSQLUSER")
 const PASSWORD = Deno.env.get("PASS")
 const DBNAME = Deno.env.get("DBNAME")
 
