@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   color: white;
+  font-family: 'Zen Antique', sans-serif;
 }
 
 body {
@@ -26,7 +27,7 @@ header {
   color: lightcoral;
 }
 
-.progress-circle{
+.progress-circle {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +35,7 @@ header {
   gap: 1em;
 }
 
-.progress{
+.progress {
   width: 30vw;
   max-height: 6em;
   max-width: 6em;
@@ -43,14 +44,15 @@ header {
   border: 1px solid white;
 }
 
-.grow{
+.grow {
   background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
   position: relative;
   animation: glow 2s linear infinite;
 }
 
 @keyframes glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
   }
   50% {
@@ -124,7 +126,7 @@ header {
   visibility: hidden;
 }
 
-.button-list{
+.button-list {
   display: flex;
   justify-content: center;
   justify-items: center;
