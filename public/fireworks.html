@@ -89,18 +89,39 @@
       <div class="box4"><button id="save_button" disabled>ほぞん</button></div>
     </div>
     <script>
+      let hasEasterEgg = false;
+      window.addEventListener('load', (event) => {
+        if (localStorage.getItem('easterEgg') === 'enable') {
+          hasEasterEgg = true;
+          localStorage.removeItem('easterEgg');
+        }
+      });
+
       document.getElementById('firing_button').onclick = () => {
         document.getElementById('firing_button').src = '/img/remocon_push.png';
 
-        let type_data = localStorage.getItem('type');
-        let color_data = localStorage.getItem('color');
-        if (type_data === undefined || color_data === undefined) {
+        if (hasEasterEgg === true) {
+          startContestMode();
           return;
         }
 
-        let color_list = color_data.split(',');
+        let data = [
+          JSON.parse(localStorage.getItem('first')),
+          JSON.parse(localStorage.getItem('second')),
+          JSON.parse(localStorage.getItem('third')),
+        ];
+
+        if (data.some((x) => x === null)) {
+          return;
+        }
+
         colorMode(HSB);
-        start(type_data, color(color_list[0], color_list[1], color_list[2]));
+        let type_data = data.map((x) => x.type);
+        let color_data = data.map((x) =>
+          color(x.color[0], x.color[1], x.color[2])
+        );
+
+        startMakeMode(type_data, color_data);
       };
 
       document.addEventListener('onFireworkDispose', () => {
@@ -112,20 +133,27 @@
 
       document.getElementById('create_button').onclick = () => {
         localStorage.clear();
-        location.href = '/'
-      }
+        location.href = '/';
+      };
 
-      document.getElementById('save_button').onclick = async() => {
+      document.getElementById('save_button').onclick = async () => {
+        let data = [
+          JSON.parse(localStorage.getItem('first')),
+          JSON.parse(localStorage.getItem('second')),
+          JSON.parse(localStorage.getItem('third')),
+        ];
+
+        if (data.some((x) => x === null)) {
+          return;
+        }
+
         const res = await fetch('/save-firework', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            type: localStorage.getItem('type'),
-            color: localStorage.getItem('color')
-          })
-        })
-        alert("再びレシピを呼び出すための呪文：" + await res.text())
-      }
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        alert('再びレシピを呼び出すための呪文：' + (await res.text()));
+      };
     </script>
   </body>
 </html>

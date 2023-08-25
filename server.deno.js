@@ -6,7 +6,7 @@ import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts"
 
 // 必要な環境変数を取得
 const HOSTNAME = Deno.env.get("HOSTNAME")
-const USER = Deno.env.get("USER")
+const USER = Deno.env.get("MYSQLUSER")
 const PASSWORD = Deno.env.get("PASS")
 const DBNAME = Deno.env.get("DBNAME")
 
@@ -43,12 +43,32 @@ serve(async (req) => {
     return new Response(JSON.stringify(colorName));
   }
 
+  if (req.method === "GET" && pathname === "/types") {
+    const types = await mySqlClient.query(`SELECT * FROM  type;`);
+    return new Response(JSON.stringify(types));
+  }
+
   if (req.method === "POST" && pathname === "/regist-color-code") {
     const json = await req.json();
     const name = json.name;
     const code = json.code;
     if (name !== "" && code !== ""){
       const result = await mySqlClient.execute("insert into color (name, code) value (?, ?);", [name,code]);
+      if (result.affectedRows === 1){
+        return new Response("登録完了しました")
+      }else{
+        return new Response("登録失敗しました")
+      }
+    }
+    return new Response("空欄があります")
+  }
+
+  if (req.method === "POST" && pathname === "/regist-type") {
+    const json = await req.json();
+    const name = json.name;
+    const url = json.url;
+    if (name !== "" && url !== ""){
+      const result = await mySqlClient.execute("insert into type (name, url) value (?, ?);", [name,url]);
       if (result.affectedRows === 1){
         return new Response("登録完了しました")
       }else{
