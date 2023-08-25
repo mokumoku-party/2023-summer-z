@@ -53,13 +53,13 @@
     <p id="err"></p>
   </div>
   <div class="button-list">
-    <button class="buttonOutlineGlow" @click="undo()">
-      <span class="buttonOutlineGlow_bg"></span>
-      <span class="buttonOutlineGlow_item">ひとつ前に戻る</span>
-    </button>
     <button class="buttonOutlineGlow" @click="submit()">
       <span class="buttonOutlineGlow_bg"></span>
       <span class="buttonOutlineGlow_item">次に進む</span>
+    </button>
+    <button class="buttonOutlineGlow" @click="undo()">
+      <span class="buttonOutlineGlow_bg"></span>
+      <span class="buttonOutlineGlow_item">ひとつ前に戻る</span>
     </button>
   </div>
 
@@ -152,7 +152,7 @@
           console.log(color);
           if(this.firstStarExist && this.secondStarExist){
             localStorage.setItem('third', JSON.stringify({type: this.selectedType,color: color}));
-            location.href = "/fireworks.html"
+            location.href = "/ball.html"
             return
           }
           if(this.firstStarExist){

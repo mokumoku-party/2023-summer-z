@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/ball.css">
+  <link rel="stylesheet" href="./css/button_outline_grow.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <title>Hanabishi</title>
+</head>
+
+<body x-data="ball()" x-init="initSortable();">
+  <header>
+    <h1>H A N A B I S H I</h1>
+  </header>
+  <div class="content">
+    <div class="desc">
+      <p>星をドラッグ&ドロップで並び替えて、花火の色の順番を決めよう！</p>
+    </div>
+    <div class="selected-star">
+      <h2>ほし</h2>
+      <div class="star-list" x-ref="starList">
+        <template x-for="(star, index) in stars" :key="index">
+          <div class="star-container" :data-id="index" draggable="true">
+            <div class="star" :style="`background-color: ${hsb2hsl(star.color[0], star.color[1], star.color[2])}`">
+              <img x-bind:src="types[star.type]" alt="star.type">
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="ball">
+      <svg id="ball-svg" width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M250 150C250 163.132 247.413 176.136 242.388 188.268C237.362 200.401 229.997 211.425 220.711 220.711C211.425 229.997 200.401 237.362 188.268 242.388C176.136 247.413 163.132 250 150 250C136.868 250 123.864 247.413 111.732 242.388C99.5991 237.362 88.5752 229.997 79.2893 220.711C70.0035 211.425 62.6375 200.401 57.612 188.268C52.5866 176.136 50 163.132 50 150L60 150C60 161.819 62.3279 173.522 66.8508 184.442C71.3738 195.361 78.0031 205.282 86.3604 213.64C94.7177 221.997 104.639 228.626 115.558 233.149C126.478 237.672 138.181 240 150 240C161.819 240 173.522 237.672 184.442 233.149C195.361 228.626 205.282 221.997 213.64 213.64C221.997 205.282 228.626 195.361 233.149 184.442C237.672 173.522 240 161.819 240 150H250Z"
+          fill="#DEC58E" />
+        <path
+          d="M169.287 245.385C170.095 249.067 170.218 252.932 169.646 256.683C169.074 260.434 167.822 263.971 165.986 267.023C164.151 270.075 161.78 272.561 159.057 274.29C156.333 276.019 153.329 276.945 150.275 276.998C147.22 277.05 144.197 276.227 141.436 274.592C138.676 272.957 136.252 270.554 134.35 267.566C132.448 264.578 131.119 261.085 130.464 257.356C129.81 253.626 129.848 249.758 130.575 246.05L136.402 247.835C135.893 250.431 135.867 253.138 136.325 255.749C136.783 258.36 137.713 260.805 139.045 262.896C140.376 264.988 142.073 266.67 144.005 267.815C145.938 268.959 148.054 269.535 150.192 269.498C152.33 269.462 154.433 268.813 156.34 267.603C158.246 266.392 159.906 264.652 161.19 262.516C162.475 260.379 163.352 257.903 163.752 255.278C164.153 252.652 164.067 249.947 163.501 247.37L169.287 245.385Z"
+          fill="#DEC58E" />
+        <circle cx="73.5" cy="149.5" r="12.5" x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="78.5" cy="175.5" r="12.5" x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="91.5" cy="198.5" r="12.5" x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="112.5" cy="215.5" r="12.5" x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="136.5" cy="225.5" r="12.5" x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="12.5" cy="12.5" r="12.5" transform="matrix(-1 0 0 1 239 137)"
+          x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="12.5" cy="12.5" r="12.5" transform="matrix(-1 0 0 1 234 163)"
+          x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="12.5" cy="12.5" r="12.5" transform="matrix(-1 0 0 1 221 186)"
+          x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="12.5" cy="12.5" r="12.5" transform="matrix(-1 0 0 1 200 203)"
+          x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="12.5" cy="12.5" r="12.5" transform="matrix(-1 0 0 1 176 213)"
+          x-bind:fill="hsbToRgb(...stars[2].color)" />
+        <circle cx="106.5" cy="149.5" r="10.5" x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="113.5" cy="170.5" r="10.5" x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="128.5" cy="187.5" r="10.5" x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="10.5" cy="10.5" r="10.5" transform="matrix(-1 0 0 1 207 139)"
+          x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="10.5" cy="10.5" r="10.5" transform="matrix(-1 0 0 1 199 160)"
+          x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="10.5" cy="10.5" r="10.5" transform="matrix(-1 0 0 1 182 177)"
+          x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="150.5" cy="193.5" r="10.5" x-bind:fill="hsbToRgb(...stars[1].color)" />
+        <circle cx="135" cy="150" r="8" x-bind:fill="hsbToRgb(...stars[0].color)" />
+        <circle cx="142" cy="165" r="8" x-bind:fill="hsbToRgb(...stars[0].color)" />
+        <circle cx="166" cy="150" r="8" x-bind:fill="hsbToRgb(...stars[0].color)" />
+        <circle cx="159" cy="165" r="8" x-bind:fill="hsbToRgb(...stars[0].color)" />
+      </svg>
+    </div>
+    <button class="buttonOutlineGlow" @click="submit()">
+      <span class="buttonOutlineGlow_bg"></span>
+      <span class="buttonOutlineGlow_item">打ち上げよう！</span>
+    </button>
+  </div>
+
+  <script>
+    const ball = () => {
+      return {
+        stars: [
+          JSON.parse(localStorage.getItem('first')),
+          JSON.parse(localStorage.getItem('second')),
+          JSON.parse(localStorage.getItem('third')),
+        ],
+        types: {
+          牡丹: './img/botan.svg',
+          菊: './img/kiku.svg'
+        },
+        colors: {
+          beni: [16, 100, 100],
+          purple: [271, 80, 88],
+          orange: [38, 100, 100],
+          light_green: [90, 100, 100],
+          red: [0, 100, 100],
+          blue: [240, 100, 100],
+          green: [120, 100, 100],
+          yellow: [60, 100, 100]
+        },
+        submit() {
+          localStorage.clear();
+          localStorage.setItem('first', JSON.stringify(this.stars[0]));
+          localStorage.setItem('second', JSON.stringify(this.stars[1]));
+          localStorage.setItem('third', JSON.stringify(this.stars[2]));
+          location.href = '/fireworks.html';
+        },
+        hsb2hsl(h, s, b) {
+          // h（Hue）は0~360の範囲でそのまま使用
+          h = h % 360;
+
+          // s（Saturation）とb（Brightness）は0~100の範囲に正規化
+          s = s / 100.0;
+          b = b / 100.0;
+
+          // L（Lightness）の値を計算
+          const L = (2 - s) * b / 2;
+
+          let S;
+          if (L < 1) {
+            S = s * b / (L < 0.5 ? L * 2 : 2 - L * 2);
+          } else {
+            S = 0;
+          }
+
+          // LとSを0~100の範囲に変換
+          const L100 = L * 100;
+          const S100 = S * 100;
+
+          // HSL文字列を返す
+          return `hsl(${h}, ${S100}%, ${L100}%)`;
+        },
+        hsbToRgb(h, s, br) {
+          // hはそのまま、sとbrは0〜100から0〜1に正規化
+          h = (h % 360 + 360) % 360;
+          s = Math.max(0, Math.min(100, s)) / 100;
+          br = Math.max(0, Math.min(100, br)) / 100;
+
+          let i = Math.floor(h / 60);
+          let f = h / 60 - i;
+          let p = br * (1 - s);
+          let q = br * (1 - f * s);
+          let t = br * (1 - (1 - f) * s);
+
+          let r, g, b;
+          switch (i) {
+            case 0: [r, g, b] = [br, t, p]; break;
+            case 1: [r, g, b] = [q, br, p]; break;
+            case 2: [r, g, b] = [p, br, t]; break;
+            case 3: [r, g, b] = [p, q, br]; break;
+            case 4: [r, g, b] = [t, p, br]; break;
+            case 5: [r, g, b] = [br, p, q]; break;
+          }
+
+          r = Math.round(r * 255);
+          g = Math.round(g * 255);
+          b = Math.round(b * 255);
+
+          return `rgb(${r}, ${g}, ${b})`;
+        },
+        initSortable() {
+          const self = this;
+          const el = this.$refs.starList;
+          Sortable.create(el, {
+            animation: 150,
+            onEnd: (event) => {
+              const item = self.stars.splice(event.oldIndex, 1)[0];
+              self.stars.splice(event.newIndex, 0, item);
+
+              // データが変更されたことをAlpineJSに明示的に通知
+              self.stars = [...self.stars];
+              console.dir(this.stars);
+            }
+          });
+        },
+      };
+    };
+  </script>
+</body>
+
+</html>
