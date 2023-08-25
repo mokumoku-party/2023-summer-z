@@ -1,0 +1,18 @@
+.buttonOutlineGlow {
+  margin-bottom: 10px;
+}
+
+#textInput {
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: auto;
+  min-height: 180px;
+  resize: vertical;
+  max-width: 100%;
+}
+
+textarea {
+  color: #323252;
+}
