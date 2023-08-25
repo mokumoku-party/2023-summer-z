@@ -73,3 +73,7 @@ header {
   left: 0px;
 }
 
+.desc {
+  padding-left: 2em;
+  padding-right: 2em;
+}
