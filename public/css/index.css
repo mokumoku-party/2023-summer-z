@@ -21,6 +21,7 @@ main {
 }
 
 .start-button {
+  background-color: #343451;
   width: 300px;
   height: 300px;
 }
