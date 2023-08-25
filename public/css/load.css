@@ -12,3 +12,7 @@
   resize: vertical;
   max-width: 100%;
 }
+
+textarea {
+  color: #323252;
+}
