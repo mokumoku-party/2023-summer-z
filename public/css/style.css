@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  margin: 0;
   padding: 0;
   background-color: #343451;
   color: white;
@@ -132,4 +133,5 @@ header {
   justify-content: center;
   align-items: center;
   gap: 1em;
+  margin-bottom: 4em;
 }
