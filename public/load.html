@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/button_outline_grow.css" />
     <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/load.css" />
     <title>Hanabishi</title>
   </head>
 
@@ -16,15 +18,32 @@
 
     <main>
       <form id="form">
-        <input type="text" id="textInput" name="textInput" />
-        <button type="submit">Submit</button>
+        <textarea id="textInput" name="textInput"> </textarea>
       </form>
+      <div>
+        <button class="buttonOutlineGlow" id="backButton">
+          <span class="buttonOutlineGlow_bg"></span>
+          <span class="buttonOutlineGlow_item">戻る</span>
+        </button>
+        <button class="buttonOutlineGlow" id="loadButton">
+          <span class="buttonOutlineGlow_bg"></span>
+          <span class="buttonOutlineGlow_item">打ち上げる</span>
+        </button>
+      </div>
     </main>
 
     <script>
       document
-        .getElementById('form')
-        .addEventListener('submit', async function (event) {
+        .getElementById('backButton')
+        .addEventListener('click', async function (event) {
+          event.preventDefault();
+
+          location.href = './index.html';
+        });
+
+      document
+        .getElementById('loadButton')
+        .addEventListener('click', async function (event) {
           event.preventDefault();
 
           const hash = document.getElementById('textInput').value;
