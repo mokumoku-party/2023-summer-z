@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   color: white;
+  font-family: 'Zen Antique', sans-serif;
 }
 
 body {
@@ -26,7 +27,7 @@ header {
   color: lightcoral;
 }
 
-.progress-circle{
+.progress-circle {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +35,7 @@ header {
   gap: 1em;
 }
 
-.progress{
+.progress {
   width: 30vw;
   max-height: 6em;
   max-width: 6em;
@@ -43,14 +44,15 @@ header {
   border: 1px solid white;
 }
 
-.grow{
+.grow {
   background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
   position: relative;
   animation: glow 2s linear infinite;
 }
 
 @keyframes glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
   }
   50% {
@@ -67,7 +69,7 @@ header {
 }
 
 .type-list {
-  min-height: 12em;
+  min-height: 10em;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -76,13 +78,13 @@ header {
 }
 
 .type-tile {
-  width: 12em;
-  height: 12em;
+  width: 8em;
+  height: 8em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
+  gap: 0;
   border: 4px solid transparent;
 }
 
@@ -93,6 +95,17 @@ header {
 .type-tile img {
   width: 80%;
   height: 80%;
+  object-fit: contain;
+}
+
+.type-tile p {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.type-tile.selected img {
+  width: 70%;
+  height: 70%;
   object-fit: contain;
 }
 
@@ -124,9 +137,11 @@ header {
   visibility: hidden;
 }
 
-.button-list{
+.button-list {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  justify-items: center;
+  align-items: center;
   gap: 1em;
+  margin-bottom: 4em;
 }
