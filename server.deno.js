@@ -1,6 +1,6 @@
 import { serveDir } from "https://deno.land/std@0.151.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.151.0/http/server.ts";
-import { Md5 } from "https://deno.land/std@0.123.0/hash/md5.ts";
+import { SHAKE128 } from "https://code4fukui.github.io/SHA3/SHAKE128.js";
 import "https://deno.land/std@0.193.0/dotenv/load.ts"
 import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts"
 
@@ -26,8 +26,7 @@ serve(async (req) => {
   }
   if (req.method === "POST" && pathname === "/save-firework") {
     const jsonStr = JSON.stringify(await req.json());
-    const md5 = new Md5();
-    const hash = md5.update(jsonStr).toString();
+    const hash = SHAKE128.digest(jsonStr, 128);
     mySqlClient.execute(`insert into recipe (recipe, hash) value (?, ?);`, [jsonStr, hash]);
     return new Response(hash);
   }
