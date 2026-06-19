@@ -34,7 +34,10 @@
       </div>
     </main>
 
-    <script>
+    <script type="module">
+      import { Base16 } from "https://code4fukui.github.io/Base16/Base16.js";
+      import { Base16384 } from "https://code4fukui.github.io/Base16384/Base16384.js";
+
       document
         .getElementById('backButton')
         .addEventListener('click', async function (event) {
@@ -48,7 +51,8 @@
         .addEventListener('click', async function (event) {
           event.preventDefault();
 
-          const hash = document.getElementById('textInput').value;
+          const spell = document.getElementById('textInput').value;
+          const hash = Base16.encode(Base16384.decode(spell, 16));
           const response = await fetch(`/load-firework?hash=${hash}`);
           const data = await response.json();
 
